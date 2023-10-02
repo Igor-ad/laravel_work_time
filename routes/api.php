@@ -1,6 +1,11 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Enums\PathEnum as Path;
+use App\Http\Controllers\Api\CycleController;
+use App\Http\Controllers\Api\MachineController;
+use App\Http\Controllers\Api\MachineIndexController;
+use App\Http\Controllers\Api\WorkerController;
+use App\Http\Controllers\Api\WorkerIndexController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,6 +19,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::middleware(['auth:api'])->group(callback: function () {
+    Route::get(Path::getWorkers->value, [WorkerIndexController::class, 'index']);
+    Route::get(Path::getMachines->value, [MachineIndexController::class, 'index']);
+    Route::get(Path::getWorkerHistory->value, [WorkerController::class, 'history']);
+    Route::get(Path::getMachineHistory->value, [MachineController::class, 'history']);
+    Route::get(Path::getWorkerNow->value, [WorkerController::class, 'now']);
+    Route::get(Path::getMachineNow->value, [MachineController::class, 'now']);
+    Route::put(Path::setStart->value, [CycleController::class, 'start']);
+    Route::put(Path::setEnd->value, [CycleController::class, 'end']);
 });
