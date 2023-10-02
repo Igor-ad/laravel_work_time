@@ -12,6 +12,10 @@ class MachineController extends Controller
 {
     use ResponseController, ValidateController;
 
+    /**
+     * @param HistoryRepository $historyRepository
+     * @param MachineRequest $request
+     */
     public function __construct(
         protected HistoryRepository $historyRepository,
         protected MachineRequest    $request,

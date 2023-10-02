@@ -10,6 +10,10 @@ use Symfony\Component\HttpFoundation\Response;
 
 abstract class ApiFormRequest extends FormRequest
 {
+    /**
+     * @param Validator $validator
+     * @return mixed
+     */
     protected function failedValidation(Validator $validator)
     {
         $errors = (new ValidationException($validator))->errors();

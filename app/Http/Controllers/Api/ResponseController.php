@@ -33,6 +33,9 @@ trait ResponseController
         );
     }
 
+    /**
+     * @return JsonResponse
+     */
     public function paginateCollect(): JsonResponse
     {
         $jsonSerializable = new ModelCollection($this->collection);
@@ -40,6 +43,9 @@ trait ResponseController
         return $this->commonResponse($jsonSerializable, Response::HTTP_OK);
     }
 
+    /**
+     * @return JsonResponse
+     */
     public function responseCollect(): JsonResponse
     {
         $jsonSerializable = new CollectionResource($this->collection);
@@ -47,6 +53,9 @@ trait ResponseController
         return $this->commonResponse($jsonSerializable, Response::HTTP_OK);
     }
 
+    /**
+     * @return JsonResponse
+     */
     public function responseResource(): JsonResponse
     {
         $jsonSerializable = new ModelResource($this->model);
@@ -54,6 +63,9 @@ trait ResponseController
         return $this->commonResponse($jsonSerializable, Response::HTTP_OK);
     }
 
+    /**
+     * @return JsonResponse
+     */
     public function responseCreate(): JsonResponse
     {
         $jsonSerializable = new ModelResource($this->model);
@@ -61,6 +73,9 @@ trait ResponseController
         return $this->commonResponse($jsonSerializable, Response::HTTP_CREATED);
     }
 
+    /**
+     * @return JsonResponse
+     */
     public function responseError(): JsonResponse
     {
         $jsonSerializable = new ModelResource($this->model);

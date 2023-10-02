@@ -13,6 +13,10 @@ class WorkerController extends Controller
 {
     use ResponseController, ValidateController;
 
+    /**
+     * @param HistoryRepository $historyRepository
+     * @param WorkerRequest $request
+     */
     public function __construct(
         protected HistoryRepository $historyRepository,
         protected WorkerRequest     $request,
