@@ -19,7 +19,6 @@ class WorkerIndexController extends Controller
     {
     }
 
-
     /**
      * @return JsonResponse
      */
