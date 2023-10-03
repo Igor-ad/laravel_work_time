@@ -24,6 +24,10 @@ class WorkerService
         return Worker::query()->orderBy('id')->get('name');
     }
 
+    /**
+     * @param string $workerName
+     * @return Collection
+     */
     public function now(string $workerName): Collection
     {
         $worker = Worker::where('name', $workerName)->first();
@@ -32,11 +36,11 @@ class WorkerService
     }
 
     /**
-     * @param string $worker
+     * @param string $workerName
      * @return LengthAwarePaginator
      */
-    public function history(string $worker): LengthAwarePaginator
+    public function history(string $workerName): LengthAwarePaginator
     {
-        return $this->historyRepository->workerHistory($worker);
+        return $this->historyRepository->workerHistory($workerName);
     }
 }

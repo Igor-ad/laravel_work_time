@@ -4,8 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\MachineRequest;
-use App\Models\Machine;
-use App\Repositories\HistoryRepository;
+use App\Services\MachineService;
 use Illuminate\Http\JsonResponse;
 
 class MachineController extends Controller
@@ -13,12 +12,12 @@ class MachineController extends Controller
     use ResponseController, ValidateController;
 
     /**
-     * @param HistoryRepository $historyRepository
+     * @param MachineService $machineService
      * @param MachineRequest $request
      */
     public function __construct(
-        protected HistoryRepository $historyRepository,
-        protected MachineRequest    $request,
+        protected MachineService $machineService,
+        protected MachineRequest $request,
     )
     {
         $this->validateInput();
@@ -30,7 +29,7 @@ class MachineController extends Controller
     public function now(): JsonResponse
     {
         $this->key = __('work_time.machine_now', ['id' => $this->machine]);
-        $this->model = Machine::find($this->machine)->worker()->get('name');
+        $this->model = $this->machineService->now($this->machine);
 
         return $this->responseResource();
     }
@@ -41,7 +40,7 @@ class MachineController extends Controller
     public function history(): JsonResponse
     {
         $this->key = __('work_time.machine_history', ['id' => $this->machine]);
-        $this->collection = $this->historyRepository->machineHistory($this->machine);
+        $this->collection = $this->machineService->history($this->machine);
 
         return $this->responseCollect();
     }

@@ -19,7 +19,6 @@ class MachineIndexController extends Controller
     {
     }
 
-
     /**
      * @return JsonResponse
      */
