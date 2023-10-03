@@ -14,9 +14,9 @@ use Symfony\Component\HttpFoundation\Response;
 
 trait ResponseController
 {
-    private string $key;
-    private Collect $model;
-    private Collection|LengthAwarePaginator $collection;
+    protected string|null $key = null;
+    protected Collect|null $model = null;
+    protected Collection|LengthAwarePaginator|null $collection = null;
 
     /**
      * @param JsonSerializable $jsonSerializable

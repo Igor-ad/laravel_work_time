@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use App\Http\Controllers\Api\ResponseController;
 use App\Http\Controllers\Api\ValidateController;
 use App\Http\Requests\Api\CycleRequest;
 use App\Models\Cycle;
@@ -11,13 +10,12 @@ use App\Models\Machine;
 use App\Models\Worker;
 use App\Repositories\HistoryRepository;
 use Exception;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 use RuntimeException;
 
 class CycleService
 {
-    use ResponseController, ValidateController;
+    use ValidateController;
 
     /**
      * @param HistoryRepository $historyRepository
@@ -32,54 +30,40 @@ class CycleService
     }
 
     /**
-     * @return JsonResponse
+     * @return void
+     * @throws Exception
      */
-    public function start(): JsonResponse
+    public function start(): void
     {
         DB::beginTransaction();
         try {
+
             $this->startCondition();
             $this->startCycle();
 
         } catch (Exception $e) {
             DB::rollBack();
-
-            $this->key = __('work_time.error');
-            $this->model = collect($this->toArray($e->getMessage()));
-
-            return $this->responseError();
+            throw $e;
         }
         DB::commit();
-
-        $this->key = __('work_time.message');
-        $this->model = collect($this->toArray(__('work_time.start_cycle')));
-
-        return $this->responseCreate();
     }
 
     /**
-     * @return JsonResponse
+     * @return void
+     * @throws Exception
      */
-    public function end(): JsonResponse
+    public function end(): void
     {
         DB::beginTransaction();
         try {
+
             $this->endCycle($this->endCondition());
 
         } catch (Exception $e) {
             DB::rollBack();
-
-            $this->key = __('work_time.error');
-            $this->model = collect($this->toArray($e->getMessage()));
-
-            return $this->responseError();
+            throw $e;
         }
         DB::commit();
-
-        $this->key = __('work_time.message');
-        $this->model = collect($this->toArray(__('work_time.end_cycle')));
-
-        return $this->responseCreate();
     }
 
     /**
@@ -132,18 +116,5 @@ class CycleService
     {
         Cycle::find($history->getAttribute('id'))->update(['complete' => 1]);
         Machine::find($this->machine)->update(['worker_id' => null]);
-    }
-
-    /**
-     * @param string $message
-     * @return array
-     */
-    protected function toArray(string $message): array
-    {
-        return [
-            'machine' => $this->machine,
-            'worker' => $this->worker,
-            'msg' => $message,
-        ];
     }
 }
