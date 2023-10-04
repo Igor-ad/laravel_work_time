@@ -265,6 +265,8 @@ Access-Control-Allow-Origin: *
 ]
 }
 
+**worker not found in the system** [`see this`](#worker-not-found-in-the-system)
+
 ========
 
 ##### request for up-to-date information on the machine 102
@@ -293,6 +295,8 @@ Access-Control-Allow-Origin: *
 }
 ]
 }
+
+**worker not found in the system** [`see this`](#worker-not-found-in-the-system)
 
 #### validation error
 
@@ -370,6 +374,8 @@ Access-Control-Allow-Origin: *
 }
 }
 
+**the machine not found in the system** [`see this`](#the-machine-not-found-in-the-system)
+
 ========
 
 ##### request of the worker job history with pagination
@@ -427,6 +433,8 @@ Access-Control-Allow-Origin: *
 }
 }
 }
+
+**worker not found in the system** [`see this`](#worker-not-found-in-the-system)
 
 ====================================!
 
