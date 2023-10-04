@@ -2,12 +2,10 @@
 
 namespace App\Services;
 
-use App\Http\Controllers\Api\ValidateController;
+use App\Http\Controllers\Api\ModelsTestController;
 use App\Http\Requests\Api\CycleRequest;
 use App\Models\Cycle;
 use App\Models\History;
-use App\Models\Machine;
-use App\Models\Worker;
 use App\Repositories\HistoryRepository;
 use Exception;
 use Illuminate\Support\Facades\DB;
@@ -15,7 +13,7 @@ use RuntimeException;
 
 class CycleService
 {
-    use ValidateController;
+    use ModelsTestController;
 
     /**
      * @param HistoryRepository $historyRepository
@@ -38,7 +36,7 @@ class CycleService
         DB::beginTransaction();
         try {
 
-            $this->startCondition();
+            $this->startConditions();
             $this->startCycle();
 
         } catch (Exception $e) {
@@ -57,7 +55,7 @@ class CycleService
         DB::beginTransaction();
         try {
 
-            $this->endCycle($this->endCondition());
+            $this->endCycle($this->endConditions());
 
         } catch (Exception $e) {
             DB::rollBack();
@@ -69,9 +67,12 @@ class CycleService
     /**
      * @return void
      */
-    private function startCondition(): void
+    private function startConditions(): void
     {
-        $used = Machine::find($this->machine)->worker()->first();
+        $this->testMachine();
+        $this->testWorker();
+
+        $used = $this->modelMachine->worker()->first();
 
         if ($used) {
             throw new RuntimeException(
@@ -85,20 +86,21 @@ class CycleService
      */
     private function startCycle(): void
     {
-        $worker = Worker::where('name', $this->worker)->first();
-        Machine::find($this->machine)->update(['worker_id' => $worker->id]);
+        $this->modelMachine->update(['worker_id' => $this->modelWorker->getAttribute('id')]);
         $cycle = Cycle::create();
 
-        $this->historyRepository->create($worker, $this->machine, $cycle);
+        $this->historyRepository->create($this->modelWorker, $this->machine, $cycle);
     }
 
     /**
      * @return History
      */
-    private function endCondition(): History
+    private function endConditions(): History
     {
-        $worker = Worker::where('name', $this->worker)->first();
-        $cycleId = $this->historyRepository->cycleIdToUse($this->machine, $worker);
+        $this->testMachine();
+        $this->testWorker();
+
+        $cycleId = $this->historyRepository->cycleIdToUse($this->machine, $this->modelWorker);
 
         if (!$cycleId) {
             throw new RuntimeException(
@@ -115,6 +117,6 @@ class CycleService
     private function endCycle(History $history): void
     {
         Cycle::find($history->getAttribute('id'))->update(['complete' => 1]);
-        Machine::find($this->machine)->update(['worker_id' => null]);
+        $this->modelMachine->update(['worker_id' => null]);
     }
 }

@@ -36,6 +36,7 @@ class CycleController extends Controller
         } catch (Exception $e) {
             $this->key = __('work_time.error');
             $this->model = collect($this->toArray($e->getMessage()));
+
             return $this->responseError();
         }
         $this->key = __('work_time.message');
@@ -55,10 +56,12 @@ class CycleController extends Controller
         } catch (Exception $e) {
             $this->key = __('work_time.error');
             $this->model = collect($this->toArray($e->getMessage()));
+
             return $this->responseError();
         }
         $this->key = __('work_time.message');
         $this->model = collect($this->toArray(__('work_time.end_cycle')));
+
         return $this->responseCreate();
     }
 
