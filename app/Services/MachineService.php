@@ -2,16 +2,24 @@
 
 namespace App\Services;
 
+use App\Http\Controllers\Api\ModelsTestController;
+use App\Http\Requests\Api\MachineRequest;
 use App\Models\Machine;
 use App\Repositories\HistoryRepository;
+use Exception;
 use Illuminate\Database\Eloquent\Collection;
+use RuntimeException;
 
 class MachineService
 {
+    use ModelsTestController;
+
     public function __construct(
         protected HistoryRepository $historyRepository,
+        protected MachineRequest    $request,
     )
     {
+        $this->validateInput();
     }
 
     /**
@@ -23,20 +31,32 @@ class MachineService
     }
 
     /**
-     * @param int $machineId
      * @return Collection
      */
-    public function now(int $machineId): Collection
+    public function now(): Collection
     {
-        return Machine::find($machineId)->worker()->get('name');
+        try {
+            $this->testMachine();
+
+            return $this->modelMachine->worker()->get('name');
+
+        } catch (Exception $e) {
+            throw new RuntimeException($e->getMessage());
+        }
     }
 
     /**
-     * @param int $machineId
      * @return Collection
      */
-    public function history(int $machineId): Collection
+    public function history(): Collection
     {
-        return $this->historyRepository->machineHistory($machineId);
+        try {
+            $this->testMachine();
+
+            return $this->historyRepository->machineHistory($this->modelMachine);
+
+        } catch (Exception $e) {
+            throw new RuntimeException($e->getMessage());
+        }
     }
 }

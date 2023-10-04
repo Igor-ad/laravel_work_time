@@ -89,7 +89,7 @@ class CycleService
         $this->modelMachine->update(['worker_id' => $this->modelWorker->getAttribute('id')]);
         $cycle = Cycle::create();
 
-        $this->historyRepository->create($this->modelWorker, $this->machine, $cycle);
+        $this->historyRepository->create($this->modelWorker, $this->modelMachine, $cycle);
     }
 
     /**
@@ -100,7 +100,7 @@ class CycleService
         $this->testMachine();
         $this->testWorker();
 
-        $cycleId = $this->historyRepository->cycleIdToUse($this->machine, $this->modelWorker);
+        $cycleId = $this->historyRepository->cycleIdToUse($this->modelMachine, $this->modelWorker);
 
         if (!$cycleId) {
             throw new RuntimeException(

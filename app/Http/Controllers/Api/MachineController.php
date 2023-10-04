@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\MachineRequest;
 use App\Services\MachineService;
+use Exception;
 use Illuminate\Http\JsonResponse;
 
 class MachineController extends Controller
@@ -29,7 +30,16 @@ class MachineController extends Controller
     public function now(): JsonResponse
     {
         $this->key = __('work_time.machine_now', ['id' => $this->machine]);
-        $this->model = $this->machineService->now($this->machine);
+        try {
+
+            $this->model = $this->machineService->now();
+
+        } catch (Exception $e) {
+            $this->key = __('work_time.error');
+            $this->model = collect(['machine' => $this->machine, 'msg' => $e->getMessage()]);
+
+            return $this->responseError();
+        }
 
         return $this->responseResource();
     }
@@ -40,8 +50,16 @@ class MachineController extends Controller
     public function history(): JsonResponse
     {
         $this->key = __('work_time.machine_history', ['id' => $this->machine]);
-        $this->collection = $this->machineService->history($this->machine);
+        try {
 
+            $this->collection = $this->machineService->history();
+
+        } catch (Exception $e) {
+            $this->key = __('work_time.error');
+            $this->model = collect(['machine' => $this->machine, 'msg' => $e->getMessage()]);
+
+            return $this->responseError();
+        }
         return $this->responseCollect();
     }
 }
