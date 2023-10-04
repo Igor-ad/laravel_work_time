@@ -143,6 +143,26 @@ Access-Control-Allow-Origin: *
 }
 }
 
+#### the machine not found in the system
+
+> {
+"error": {
+"machine": 24,
+"worker": "Андрей",
+"msg": "machine ID 24 not found in the system"
+}
+}
+
+#### worker not found in the system
+
+> {
+"error": {
+"machine": 23,
+"worker": "Андрейs",
+"msg": "worker Андрейs not found in the system"
+}
+}
+
 #### starting to use the machine
 
 >HTTP/1.1 201 Created
