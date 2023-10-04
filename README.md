@@ -13,11 +13,12 @@
 - commands of application init:
 - - cd /path_to_application
 - - ./vendor/bin/sail up -d
+- - composer update
 - - ./vendor/bin/sail artisan migrate
 - - ./vendor/bin/sail artisan db:seed
 
 
-- \app\Enums\PathEnum this file contains all system paths.
+-  \app\Enums\PathEnum this file contains all system paths.
 
 
 #### Examples of requests and responses
@@ -137,7 +138,7 @@ Access-Control-Allow-Origin: *
 > {
 "error": {
 "machine": 102,
-"worker": "Alex",
+"worker": "Андрей",
 "msg": "error, the machine ID 102 is currently in use"
 }
 }
@@ -209,7 +210,7 @@ Access-Control-Allow-Origin: *
 > {
 "message": {
 "machine": 102,
-"worker": "Alex",
+"worker": "Андрей",
 "msg": "the cycle completed successfully"
 }
 }
@@ -259,9 +260,12 @@ X-RateLimit-Remaining: 57
 Access-Control-Allow-Origin: *
 
 > {
-"machine 102 is used by": [
+"Андрей uses machine(s)": [
 {
-"name": "Андрей"
+"id": 23
+},
+{
+"id": 102
 }
 ]
 }
