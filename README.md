@@ -213,6 +213,10 @@ Access-Control-Allow-Origin: *
 }
 }
 
+**the machine not found in the system** [`see this`](#the-machine-not-found-in-the-system) 
+
+**worker not found in the system** [`see this`](#worker-not-found-in-the-system)
+
 #### end of machine use
 
 >HTTP/1.1 201 OK
