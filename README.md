@@ -119,7 +119,7 @@ Access-Control-Allow-Origin: *
 
 #### set machine usage (worker Андрей, machine ID 102)
 
-> POST http://localhost:80/api/start/?machine=102&worker=Андрей&api_token=**********
+> PUT http://localhost:80/api/start/?machine=102&worker=Андрей&api_token=**********
 
 #### the machine is in use
 
@@ -189,7 +189,7 @@ Access-Control-Allow-Origin: *
 
 ##### set the end of use of the machine (worker Андрей, machine ID 102)
 
-> POST http://localhost:80/api/end/?machine=102&worker=Андрей&api_token=**********
+> PUT http://localhost:80/api/end/?machine=102&worker=Андрей&api_token=**********
 
 #### the machine is not in use
 

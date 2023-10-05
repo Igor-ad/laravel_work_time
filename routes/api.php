@@ -26,6 +26,6 @@ Route::middleware(['auth:api'])->group(callback: function () {
     Route::get(Path::getMachineHistory->value, [MachineController::class, 'history']);
     Route::get(Path::getWorkerNow->value, [WorkerController::class, 'now']);
     Route::get(Path::getMachineNow->value, [MachineController::class, 'now']);
-    Route::post(Path::setStart->value, [CycleController::class, 'start']);
-    Route::post(Path::setEnd->value, [CycleController::class, 'end']);
+    Route::put(Path::setStart->value, [CycleController::class, 'start']);
+    Route::put(Path::setEnd->value, [CycleController::class, 'end']);
 });
