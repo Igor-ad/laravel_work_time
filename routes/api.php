@@ -29,3 +29,5 @@ Route::middleware(['auth:api'])->group(callback: function () {
     Route::post(Path::setStart->value, [CycleController::class, 'start']);
     Route::put(Path::setEnd->value, [CycleController::class, 'end']);
 });
+
+Route::post('/login', ['as' => 'login']);

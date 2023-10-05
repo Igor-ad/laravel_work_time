@@ -2,7 +2,12 @@
 
 namespace App\Exceptions;
 
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -25,6 +30,45 @@ class Handler extends ExceptionHandler
     {
         $this->reportable(function (Throwable $e) {
             //
+        });
+
+        $this->renderable(function (Throwable $e, $request) {
+
+            if ($request->is('api/*') && ($e instanceof MethodNotAllowedHttpException)) {
+                throw new HttpResponseException(
+                    response()->json(
+                        data: [
+                            'error' => $e->getMessage(),
+                        ],
+                        status: Response::HTTP_METHOD_NOT_ALLOWED,
+                        options: JSON_PRETTY_PRINT,
+                    )
+                );
+            }
+
+            if ($request->is('api/*') && ($e instanceof AuthenticationException)) {
+                throw new HttpResponseException(
+                    response()->json(
+                        data: [
+                            'error' => $e->getMessage(),
+                        ],
+                        status: Response::HTTP_UNAUTHORIZED,
+                        options: JSON_PRETTY_PRINT,
+                    )
+                );
+            }
+
+            if ($request->is('api/*') && ($e instanceof NotFoundHttpException)) {
+                throw new HttpResponseException(
+                    response()->json(
+                        data: [
+                            'error' => $e->getMessage(),
+                        ],
+                        status: Response::HTTP_NOT_FOUND,
+                        options: JSON_PRETTY_PRINT,
+                    )
+                );
+            }
         });
     }
 }
