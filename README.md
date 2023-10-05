@@ -119,7 +119,7 @@ Access-Control-Allow-Origin: *
 
 #### set machine usage (worker Андрей, machine ID 102)
 
-> PUT http://localhost:80/api/start/?machine=102&worker=Андрей&api_token=**********
+> POST http://localhost:80/api/start/?machine=102&worker=Андрей&api_token=**********
 
 #### the machine is in use
 
@@ -219,7 +219,7 @@ Access-Control-Allow-Origin: *
 
 #### end of machine use
 
->HTTP/1.1 201 OK
+>HTTP/1.1 200 OK
 Host: localhost:80
 Date: Mon, 02 Oct 2023 14:02:56 GMT
 Connection: close

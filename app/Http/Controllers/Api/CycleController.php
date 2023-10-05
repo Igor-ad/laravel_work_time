@@ -64,6 +64,6 @@ class CycleController extends Controller
         $this->key = __('work_time.message');
         $this->model = collect($this->toArray($this->machine, $this->worker, __('work_time.end_cycle')));
 
-        return $this->responseCreate();
+        return $this->responseResource();
     }
 }
