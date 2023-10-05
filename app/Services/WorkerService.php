@@ -5,7 +5,6 @@ namespace App\Services;
 use App\Http\Controllers\Api\ModelsTestController;
 use App\Http\Requests\Api\WorkerRequest;
 use App\Models\Machine;
-use App\Models\Worker;
 use App\Repositories\HistoryRepository;
 use Exception;
 use Illuminate\Database\Eloquent\Collection;
@@ -22,14 +21,6 @@ class WorkerService
     )
     {
         $this->validateInput();
-    }
-
-    /**
-     * @return Collection
-     */
-    public function index(): Collection
-    {
-        return Worker::query()->orderBy('id')->get('name');
     }
 
     /**

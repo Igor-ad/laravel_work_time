@@ -4,7 +4,6 @@ namespace App\Services;
 
 use App\Http\Controllers\Api\ModelsTestController;
 use App\Http\Requests\Api\MachineRequest;
-use App\Models\Machine;
 use App\Repositories\HistoryRepository;
 use Exception;
 use Illuminate\Database\Eloquent\Collection;
@@ -20,14 +19,6 @@ class MachineService
     )
     {
         $this->validateInput();
-    }
-
-    /**
-     * @return Collection
-     */
-    public function index(): Collection
-    {
-        return Machine::query()->orderBy('id')->get('id');
     }
 
     /**

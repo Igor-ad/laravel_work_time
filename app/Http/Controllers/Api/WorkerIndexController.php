@@ -3,21 +3,12 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Services\WorkerService;
 use Illuminate\Http\JsonResponse;
+use App\Models\Worker;
 
 class WorkerIndexController extends Controller
 {
     use ResponseController;
-
-    /**
-     * @param WorkerService $workerService
-     */
-    public function __construct(
-        protected WorkerService $workerService,
-    )
-    {
-    }
 
     /**
      * @return JsonResponse
@@ -25,7 +16,7 @@ class WorkerIndexController extends Controller
     public function index(): JsonResponse
     {
         $this->key = __('work_time.workers');
-        $this->collection = $this->workerService->index();
+        $this->collection = Worker::query()->orderBy('id')->get('name');
 
         return $this->responseCollect();
     }
