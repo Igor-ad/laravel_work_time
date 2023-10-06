@@ -69,14 +69,14 @@ class CycleService
      */
     private function startConditions(): void
     {
-        $this->testMachine();
-        $this->testWorker();
+        $this->getMachine();
+        $this->getWorker();
 
-        $used = $this->modelMachine->worker()->first();
+        $used = $this->machine->worker()->first();
 
         if ($used) {
             throw new RuntimeException(
-                message: __('work_time.start_fail', ['id' => $this->machine])
+                message: __('work_time.start_fail', ['id' => $this->machineId])
             );
         }
     }
@@ -86,10 +86,10 @@ class CycleService
      */
     private function startCycle(): void
     {
-        $this->modelMachine->update(['worker_id' => $this->modelWorker->getAttribute('id')]);
+        $this->machine->update(['worker_id' => $this->worker->getAttribute('id')]);
         $cycle = Cycle::create();
 
-        $this->historyRepository->create($this->modelWorker, $this->modelMachine, $cycle);
+        $this->historyRepository->create($this->worker, $this->machine, $cycle);
     }
 
     /**
@@ -97,14 +97,14 @@ class CycleService
      */
     private function endConditions(): History
     {
-        $this->testMachine();
-        $this->testWorker();
+        $this->getMachine();
+        $this->getWorker();
 
-        $cycleId = $this->historyRepository->cycleIdToUse($this->modelMachine, $this->modelWorker);
+        $cycleId = $this->historyRepository->cycleIdToUse($this->machine, $this->worker);
 
         if (!$cycleId) {
             throw new RuntimeException(
-                message: __('work_time.end_fail', ['id' => $this->machine])
+                message: __('work_time.end_fail', ['id' => $this->machineId])
             );
         }
         return $cycleId;
@@ -117,6 +117,6 @@ class CycleService
     private function endCycle(History $history): void
     {
         Cycle::find($history->getAttribute('id'))->update(['complete' => 1]);
-        $this->modelMachine->update(['worker_id' => null]);
+        $this->machine->update(['worker_id' => null]);
     }
 }

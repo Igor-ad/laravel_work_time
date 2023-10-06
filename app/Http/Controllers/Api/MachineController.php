@@ -29,14 +29,14 @@ class MachineController extends Controller
      */
     public function now(): JsonResponse
     {
-        $this->key = __('work_time.machine_now', ['id' => $this->machine]);
+        $this->key = __('work_time.machine_now', ['id' => $this->machineId]);
         try {
 
             $this->model = $this->machineService->now();
 
         } catch (Exception $e) {
             $this->key = __('work_time.error');
-            $this->model = collect(['machine' => $this->machine, 'msg' => $e->getMessage()]);
+            $this->model = collect(['machine' => $this->machineId, 'msg' => $e->getMessage()]);
 
             return $this->responseError();
         }
@@ -49,14 +49,14 @@ class MachineController extends Controller
      */
     public function history(): JsonResponse
     {
-        $this->key = __('work_time.machine_history', ['id' => $this->machine]);
+        $this->key = __('work_time.machine_history', ['id' => $this->machineId]);
         try {
 
             $this->collection = $this->machineService->history();
 
         } catch (Exception $e) {
             $this->key = __('work_time.error');
-            $this->model = collect(['machine' => $this->machine, 'msg' => $e->getMessage()]);
+            $this->model = collect(['machine' => $this->machineId, 'msg' => $e->getMessage()]);
 
             return $this->responseError();
         }

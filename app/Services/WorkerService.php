@@ -29,9 +29,9 @@ class WorkerService
     public function now(): Collection
     {
         try {
-            $this->testWorker();
+            $this->getWorker();
 
-            return Machine::where('worker_id', $this->modelWorker->getAttribute('id'))->get('id');
+            return Machine::where('worker_id', $this->worker->getAttribute('id'))->get('id');
 
         } catch (Exception $e) {
             throw new RuntimeException($e->getMessage());
@@ -44,9 +44,9 @@ class WorkerService
     public function history(): LengthAwarePaginator
     {
         try {
-            $this->testWorker();
+            $this->getWorker();
 
-            return $this->historyRepository->workerHistory($this->modelWorker);
+            return $this->historyRepository->workerHistory($this->worker);
 
         } catch (Exception $e) {
             throw new RuntimeException($e->getMessage());

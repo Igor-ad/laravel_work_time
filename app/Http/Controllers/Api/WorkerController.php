@@ -29,14 +29,14 @@ class WorkerController extends Controller
      */
     public function now(): JsonResponse
     {
-        $this->key = __('work_time.worker_now', ['name' => $this->worker]);
+        $this->key = __('work_time.worker_now', ['name' => $this->workerName]);
         try {
 
             $this->model = $this->workerService->now();
 
         } catch (Exception $e) {
             $this->key = __('work_time.error');
-            $this->model = collect(['worker' => $this->worker, 'msg' => $e->getMessage()]);
+            $this->model = collect(['worker' => $this->workerName, 'msg' => $e->getMessage()]);
 
             return $this->responseError();
         }
@@ -48,14 +48,14 @@ class WorkerController extends Controller
      */
     public function history(): JsonResponse
     {
-        $this->key = __('work_time.worker_history', ['name' => $this->worker]);
+        $this->key = __('work_time.worker_history', ['name' => $this->workerName]);
         try {
 
             $this->collection = $this->workerService->history();
 
         } catch (Exception $e) {
             $this->key = __('work_time.error');
-            $this->model = collect(['worker' => $this->worker, 'msg' => $e->getMessage()]);
+            $this->model = collect(['worker' => $this->workerName, 'msg' => $e->getMessage()]);
 
             return $this->responseError();
         }

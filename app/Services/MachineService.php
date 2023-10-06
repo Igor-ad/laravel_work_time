@@ -27,9 +27,9 @@ class MachineService
     public function now(): Collection
     {
         try {
-            $this->testMachine();
+            $this->getMachine();
 
-            return $this->modelMachine->worker()->get('name');
+            return $this->machine->worker()->get('name');
 
         } catch (Exception $e) {
             throw new RuntimeException($e->getMessage());
@@ -42,9 +42,9 @@ class MachineService
     public function history(): Collection
     {
         try {
-            $this->testMachine();
+            $this->getMachine();
 
-            return $this->historyRepository->machineHistory($this->modelMachine);
+            return $this->historyRepository->machineHistory($this->machine);
 
         } catch (Exception $e) {
             throw new RuntimeException($e->getMessage());

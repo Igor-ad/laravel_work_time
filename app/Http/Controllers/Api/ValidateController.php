@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Api;
 
 trait ValidateController
 {
-    private readonly string|null $worker;
-    private readonly int|null $machine;
+    private readonly string|null $workerName;
+    private readonly int|null $machineId;
 
     /**
      * @return void
@@ -14,7 +14,7 @@ trait ValidateController
     {
         $validData = $this->request->validated();
 
-        $this->worker = $validData['worker'] ?? null;
-        $this->machine = $validData['machine'] ?? null;
+        $this->workerName = $validData['worker'] ?? null;
+        $this->machineId = $validData['machine'] ?? null;
     }
 }

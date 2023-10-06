@@ -10,36 +10,36 @@ trait ModelsTestController
 {
     use ValidateController;
 
-    protected Worker $modelWorker;
-    protected Machine $modelMachine;
+    protected Worker $worker;
+    protected Machine $machine;
 
     /**
      * @return void
      */
-    public function testMachine(): void
+    public function getMachine(): void
     {
-        $machine = Machine::where('id', $this->machine)->first();
+        $machine = Machine::where('id', $this->machineId)->first();
 
         if (is_null($machine)) {
             throw new RuntimeException(
-                message: __('work_time.machine_not_found', ['id' => $this->machine])
+                message: __('work_time.machine_not_found', ['id' => $this->machineId])
             );
         }
-        $this->modelMachine = $machine;
+        $this->machine = $machine;
     }
 
     /**
      * @return void
      */
-    public function testWorker(): void
+    public function getWorker(): void
     {
-        $worker = Worker::where('name', $this->worker)->first();
+        $worker = Worker::where('name', $this->workerName)->first();
 
         if (is_null($worker)) {
             throw new RuntimeException(
-                message: __('work_time.worker_not_found', ['name' => $this->worker])
+                message: __('work_time.worker_not_found', ['name' => $this->workerName])
             );
         }
-        $this->modelWorker = $worker;
+        $this->worker = $worker;
     }
 }

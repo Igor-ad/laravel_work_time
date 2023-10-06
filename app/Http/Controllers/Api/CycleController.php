@@ -36,12 +36,12 @@ class CycleController extends Controller
 
         } catch (Exception $e) {
             $this->key = __('work_time.error');
-            $this->model = collect($this->toArray($this->machine, $this->worker, $e->getMessage()));
+            $this->model = collect($this->toArray($this->machineId, $this->workerName, $e->getMessage()));
 
             return $this->responseError();
         }
         $this->key = __('work_time.message');
-        $this->model = collect($this->toArray($this->machine, $this->worker, __('work_time.start_cycle')));
+        $this->model = collect($this->toArray($this->machineId, $this->workerName, __('work_time.start_cycle')));
 
         return $this->responseCreate();
     }
@@ -57,12 +57,12 @@ class CycleController extends Controller
 
         } catch (Exception $e) {
             $this->key = __('work_time.error');
-            $this->model = collect($this->toArray($this->machine, $this->worker, $e->getMessage()));
+            $this->model = collect($this->toArray($this->machineId, $this->workerName, $e->getMessage()));
 
             return $this->responseError();
         }
         $this->key = __('work_time.message');
-        $this->model = collect($this->toArray($this->machine, $this->worker, __('work_time.end_cycle')));
+        $this->model = collect($this->toArray($this->machineId, $this->workerName, __('work_time.end_cycle')));
 
         return $this->responseResource();
     }

@@ -40,7 +40,7 @@ class Handler extends ExceptionHandler
                         data: [
                             'error' => $e->getMessage(),
                         ],
-                        status: Response::HTTP_METHOD_NOT_ALLOWED,
+                        status: $e->getStatusCode(),
                         options: JSON_PRETTY_PRINT,
                     )
                 );
@@ -64,7 +64,7 @@ class Handler extends ExceptionHandler
                         data: [
                             'error' => $e->getMessage(),
                         ],
-                        status: Response::HTTP_NOT_FOUND,
+                        status: $e->getStatusCode(),
                         options: JSON_PRETTY_PRINT,
                     )
                 );
