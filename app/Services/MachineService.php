@@ -13,6 +13,10 @@ class MachineService
 {
     use MachineWorkerPropertiesTrait;
 
+    /**
+     * @param HistoryRepository $historyRepository
+     * @param MachineRequest $request
+     */
     public function __construct(
         protected HistoryRepository $historyRepository,
         protected MachineRequest    $request,

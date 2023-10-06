@@ -6,6 +6,11 @@ use App\Models\Machine;
 use App\Models\Worker;
 use RuntimeException;
 
+/**
+ * This trait checks for the presence of a machine model or a worker model in the system.
+ * If the system does not have them, an exception will be thrown.
+ * If there are, then they are stored in class properties.
+ */
 trait MachineWorkerPropertiesTrait
 {
     use MachineWorkerValidateTrait;

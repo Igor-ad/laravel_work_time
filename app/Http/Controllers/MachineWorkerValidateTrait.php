@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+/**
+ * This Trait is simplified Data Transfer Object
+ */
 trait MachineWorkerValidateTrait
 {
     private readonly string|null $workerName;
