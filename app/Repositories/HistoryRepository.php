@@ -2,40 +2,37 @@
 
 namespace App\Repositories;
 
-use App\Models\Cycle;
 use App\Models\History;
-use App\Models\Machine;
-use App\Models\Worker;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class HistoryRepository
 {
     /**
-     * @param Worker $worker
-     * @param Machine $machine
-     * @param Cycle $cycle
+     * @param int $workerId
+     * @param int $machineId
+     * @param int $cycleId
      * @return History|null
      */
-    public function create(Worker $worker, Machine $machine, Cycle $cycle): ?History
+    public function create(int $workerId, int $machineId, int $cycleId): ?History
     {
         return History::create([
-            'worker_id' => $worker->getAttribute('id'),
-            'machine_id' => $machine->getAttribute('id'),
-            'cycle_id' => $cycle->getAttribute('id'),
+            'worker_id' => $workerId,
+            'machine_id' => $machineId,
+            'cycle_id' => $cycleId,
         ]);
     }
 
     /**
-     * @param Machine $machine
+     * @param int $machineId
      * @return Collection|null
      */
-    public function machineHistory(Machine $machine): ?Collection
+    public function machineHistory(int $machineId): ?Collection
     {
         return History::join('machines', 'machines.id', 'histories.machine_id')
             ->join('cycles', 'cycles.id', 'histories.cycle_id')
             ->join('workers', 'workers.id', 'histories.worker_id')
-            ->where('machines.id', $machine->getAttribute('id'))
+            ->where('machines.id', $machineId)
             ->select(
                 'workers.name as worker',
                 'cycles.created_at as start',
@@ -47,15 +44,15 @@ class HistoryRepository
     }
 
     /**
-     * @param Worker $worker
+     * @param string $workerName
      * @return LengthAwarePaginator|null
      */
-    public function workerHistory(Worker $worker): ?LengthAwarePaginator
+    public function workerHistory(string $workerName): ?LengthAwarePaginator
     {
         return History::join('workers', 'workers.id', 'histories.worker_id')
             ->join('cycles', 'cycles.id', 'histories.cycle_id')
             ->join('machines', 'machines.id', 'histories.machine_id')
-            ->where('workers.name', $worker->getAttribute('name'))
+            ->where('workers.name', $workerName)
             ->select(
                 'machines.id as machine',
                 'cycles.created_at as start',
@@ -67,17 +64,17 @@ class HistoryRepository
     }
 
     /**
-     * @param Machine $machine
-     * @param Worker $worker
+     * @param int $machineId
+     * @param string $workerName
      * @return History|null
      */
-    public function cycleIdToUse(Machine $machine, Worker $worker): ?History
+    public function cycleIdToUse(int $machineId, string $workerName): ?History
     {
         return History::join('machines', 'machines.id', 'histories.machine_id')
             ->join('cycles', 'cycles.id', 'histories.cycle_id')
             ->join('workers', 'workers.id', 'histories.worker_id')
-            ->where('machines.id', $machine->getAttribute('id'))
-            ->where('workers.id', $worker->getAttribute('id'))
+            ->where('machines.id', $machineId)
+            ->where('workers.name', $workerName)
             ->where('cycles.complete', 0)
             ->select('cycles.id')
             ->first();

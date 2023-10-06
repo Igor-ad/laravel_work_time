@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\MachineWorkerValidateTrait;
+use App\Http\Controllers\ResponseTrait;
 use App\Http\Requests\Api\WorkerRequest;
 use App\Services\WorkerService;
 use Exception;
@@ -10,7 +12,7 @@ use Illuminate\Http\JsonResponse;
 
 class WorkerController extends Controller
 {
-    use ResponseController, ValidateController;
+    use ResponseTrait, MachineWorkerValidateTrait;
 
     /**
      * @param WorkerRequest $request
@@ -35,8 +37,7 @@ class WorkerController extends Controller
             $this->model = $this->workerService->now();
 
         } catch (Exception $e) {
-            $this->key = __('work_time.error');
-            $this->model = collect(['worker' => $this->workerName, 'msg' => $e->getMessage()]);
+            $this->setProp($e->getMessage());
 
             return $this->responseError();
         }
@@ -54,11 +55,20 @@ class WorkerController extends Controller
             $this->collection = $this->workerService->history();
 
         } catch (Exception $e) {
-            $this->key = __('work_time.error');
-            $this->model = collect(['worker' => $this->workerName, 'msg' => $e->getMessage()]);
+            $this->setProp($e->getMessage());
 
             return $this->responseError();
         }
         return $this->paginateCollect();
+    }
+
+    /**
+     * @param string $message
+     * @return void
+     */
+    private function setProp(string $message): void
+    {
+        $this->key = __('work_time.error');
+        $this->model = collect(['worker' => $this->workerName, 'msg' => $message]);
     }
 }

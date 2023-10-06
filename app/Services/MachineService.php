@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Http\Controllers\Api\ModelsTestController;
+use App\Http\Controllers\MachineWorkerPropertiesTrait;
 use App\Http\Requests\Api\MachineRequest;
 use App\Repositories\HistoryRepository;
 use Exception;
@@ -11,7 +11,7 @@ use RuntimeException;
 
 class MachineService
 {
-    use ModelsTestController;
+    use MachineWorkerPropertiesTrait;
 
     public function __construct(
         protected HistoryRepository $historyRepository,
@@ -27,7 +27,7 @@ class MachineService
     public function now(): Collection
     {
         try {
-            $this->getMachine();
+            $this->setMachine();
 
             return $this->machine->worker()->get('name');
 
@@ -42,9 +42,9 @@ class MachineService
     public function history(): Collection
     {
         try {
-            $this->getMachine();
+            $this->setMachine();
 
-            return $this->historyRepository->machineHistory($this->machine);
+            return $this->historyRepository->machineHistory($this->machineId);
 
         } catch (Exception $e) {
             throw new RuntimeException($e->getMessage());

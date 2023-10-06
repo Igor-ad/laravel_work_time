@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers;
 
-trait ValidateController
+trait MachineWorkerValidateTrait
 {
     private readonly string|null $workerName;
     private readonly int|null $machineId;

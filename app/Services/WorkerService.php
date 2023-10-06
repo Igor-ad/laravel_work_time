@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Http\Controllers\Api\ModelsTestController;
+use App\Http\Controllers\MachineWorkerPropertiesTrait;
 use App\Http\Requests\Api\WorkerRequest;
 use App\Models\Machine;
 use App\Repositories\HistoryRepository;
@@ -13,7 +13,7 @@ use RuntimeException;
 
 class WorkerService
 {
-    use ModelsTestController;
+    use MachineWorkerPropertiesTrait;
 
     public function __construct(
         protected HistoryRepository $historyRepository,
@@ -29,7 +29,7 @@ class WorkerService
     public function now(): Collection
     {
         try {
-            $this->getWorker();
+            $this->setWorker();
 
             return Machine::where('worker_id', $this->worker->getAttribute('id'))->get('id');
 
@@ -44,9 +44,9 @@ class WorkerService
     public function history(): LengthAwarePaginator
     {
         try {
-            $this->getWorker();
+            $this->setWorker();
 
-            return $this->historyRepository->workerHistory($this->worker);
+            return $this->historyRepository->workerHistory($this->workerName);
 
         } catch (Exception $e) {
             throw new RuntimeException($e->getMessage());

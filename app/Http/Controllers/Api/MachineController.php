@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\MachineWorkerValidateTrait;
+use App\Http\Controllers\ResponseTrait;
 use App\Http\Requests\Api\MachineRequest;
 use App\Services\MachineService;
 use Exception;
@@ -10,7 +12,7 @@ use Illuminate\Http\JsonResponse;
 
 class MachineController extends Controller
 {
-    use ResponseController, ValidateController;
+    use ResponseTrait, MachineWorkerValidateTrait;
 
     /**
      * @param MachineService $machineService
@@ -35,8 +37,7 @@ class MachineController extends Controller
             $this->model = $this->machineService->now();
 
         } catch (Exception $e) {
-            $this->key = __('work_time.error');
-            $this->model = collect(['machine' => $this->machineId, 'msg' => $e->getMessage()]);
+            $this->setProp($e->getMessage());
 
             return $this->responseError();
         }
@@ -55,11 +56,16 @@ class MachineController extends Controller
             $this->collection = $this->machineService->history();
 
         } catch (Exception $e) {
-            $this->key = __('work_time.error');
-            $this->model = collect(['machine' => $this->machineId, 'msg' => $e->getMessage()]);
+            $this->setProp($e->getMessage());
 
             return $this->responseError();
         }
         return $this->responseCollect();
+    }
+
+    private function setProp(string $message): void
+    {
+        $this->key = __('work_time.error');
+        $this->model = collect(['machine' => $this->machineId, 'msg' => $message]);
     }
 }

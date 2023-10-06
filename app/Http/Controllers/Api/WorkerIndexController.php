@@ -3,12 +3,13 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\JsonResponse;
+use App\Http\Controllers\ResponseTrait;
 use App\Models\Worker;
+use Illuminate\Http\JsonResponse;
 
 class WorkerIndexController extends Controller
 {
-    use ResponseController;
+    use ResponseTrait;
 
     /**
      * @return JsonResponse

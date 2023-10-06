@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers;
 
 use App\Http\Resources\CollectionResource;
 use App\Http\Resources\ModelCollection;
@@ -12,7 +12,7 @@ use Illuminate\Support\Collection as Collect;
 use JsonSerializable;
 use Symfony\Component\HttpFoundation\Response;
 
-trait ResponseController
+trait ResponseTrait
 {
     protected string|null $key = null;
     protected Collect|null $model = null;

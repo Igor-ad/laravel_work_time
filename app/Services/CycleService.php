@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Http\Controllers\Api\ModelsTestController;
+use App\Http\Controllers\MachineWorkerPropertiesTrait;
 use App\Http\Requests\Api\CycleRequest;
 use App\Models\Cycle;
 use App\Models\History;
@@ -13,7 +13,7 @@ use RuntimeException;
 
 class CycleService
 {
-    use ModelsTestController;
+    use MachineWorkerPropertiesTrait;
 
     /**
      * @param HistoryRepository $historyRepository
@@ -69,8 +69,8 @@ class CycleService
      */
     private function startConditions(): void
     {
-        $this->getMachine();
-        $this->getWorker();
+        $this->setMachine();
+        $this->setWorker();
 
         $used = $this->machine->worker()->first();
 
@@ -89,7 +89,7 @@ class CycleService
         $this->machine->update(['worker_id' => $this->worker->getAttribute('id')]);
         $cycle = Cycle::create();
 
-        $this->historyRepository->create($this->worker, $this->machine, $cycle);
+        $this->historyRepository->create($this->worker->getAttribute('id'), $this->machineId, $cycle->id);
     }
 
     /**
@@ -97,17 +97,20 @@ class CycleService
      */
     private function endConditions(): History
     {
-        $this->getMachine();
-        $this->getWorker();
+        $this->setMachine();
+        $this->setWorker();
 
-        $cycleId = $this->historyRepository->cycleIdToUse($this->machine, $this->worker);
+        $history = $this->historyRepository->cycleIdToUse(
+            $this->machineId,
+            $this->workerName
+        );
 
-        if (!$cycleId) {
+        if (!$history) {
             throw new RuntimeException(
                 message: __('work_time.end_fail', ['id' => $this->machineId])
             );
         }
-        return $cycleId;
+        return $history;
     }
 
     /**
