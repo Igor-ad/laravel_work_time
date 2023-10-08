@@ -4,7 +4,6 @@ namespace App\Services;
 
 use App\Http\Controllers\MachineWorkerPropertiesTrait;
 use App\Http\Requests\Api\WorkerRequest;
-use App\Models\Machine;
 use App\Repositories\HistoryRepository;
 use Exception;
 use Illuminate\Database\Eloquent\Collection;

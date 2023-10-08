@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->timestamp('created_at');
             $table->timestamp('updated_at')->nullable();
-            $table->smallInteger('complete')->default(0);
+            $table->boolean('complete')->default(false);
         });
     }
 

@@ -11,6 +11,15 @@ class Cycle extends Model
     use HasFactory;
 
     /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'complete' => 'boolean',
+    ];
+
+    /**
      * @var string[]
      */
     protected $fillable = [

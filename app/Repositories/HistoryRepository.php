@@ -75,7 +75,7 @@ class HistoryRepository
             ->join('workers', 'workers.id', 'histories.worker_id')
             ->where('machines.id', $machineId)
             ->where('workers.name', $workerName)
-            ->where('cycles.complete', 0)
+            ->where('cycles.complete', false)
             ->select('cycles.id')
             ->first();
     }
