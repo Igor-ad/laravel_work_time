@@ -35,7 +35,7 @@ class WorkerService
         try {
             $this->setWorker();
 
-            return Machine::where('worker_id', $this->worker->getAttribute('id'))->get('id');
+            return $this->worker->machinesNow()->get('id');
 
         } catch (Exception $e) {
             throw new RuntimeException($e->getMessage());

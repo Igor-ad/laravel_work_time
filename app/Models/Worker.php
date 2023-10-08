@@ -25,7 +25,7 @@ class Worker extends Model
      */
     public function machinesNow(): HasMany
     {
-        return $this->hasMany(Machine::class, 'id');
+        return $this->hasMany(Machine::class, 'worker_id');
     }
 
     /**

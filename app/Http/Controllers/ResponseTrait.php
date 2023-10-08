@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\CollectionResource;
-use App\Http\Resources\ModelCollection;
+use App\Http\Resources\PaginateResource;
 use App\Http\Resources\ModelResource;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\JsonResponse;
@@ -38,7 +38,7 @@ trait ResponseTrait
      */
     public function paginateCollect(): JsonResponse
     {
-        $jsonSerializable = new ModelCollection($this->collection);
+        $jsonSerializable = new PaginateResource($this->collection);
 
         return $this->commonResponse($jsonSerializable, Response::HTTP_OK);
     }
