@@ -28,9 +28,7 @@ class WorkerService
     {
         try {
 
-            $worker = Worker::where('name', $workerName)->first();
-
-            return $worker->machinesNow()->get();
+            return Worker::where('name', $workerName)->first()->machinesNow()->get();
 
         } catch (Exception $e) {
             throw new RuntimeException($e->getMessage());

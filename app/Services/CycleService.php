@@ -86,15 +86,11 @@ class CycleService
      */
     private function startCycle(int $machineId, string $workerName): void
     {
-        $worker = Worker::query()->where('name', $workerName)->first();
+        $worker = Worker::where('name', $workerName)->first();
         Machine::find($machineId)->update(['worker_id' => $worker->id]);
         $cycle = Cycle::create();
 
-        $this->historyRepository->create(
-            $worker->id,
-            $machineId,
-            $cycle->id,
-        );
+        $this->historyRepository->create($worker->id, $machineId, $cycle->id);
     }
 
     /**
