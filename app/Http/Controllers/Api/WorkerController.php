@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\MachineWorkerValidateTrait;
+use App\Http\Controllers\MachineWorkerPropertiesTrait;
 use App\Http\Controllers\ResponseTrait;
 use App\Http\Requests\Api\WorkerRequest;
 use App\Services\WorkerService;
@@ -12,7 +12,7 @@ use Illuminate\Http\JsonResponse;
 
 class WorkerController extends Controller
 {
-    use ResponseTrait, MachineWorkerValidateTrait;
+    use ResponseTrait, MachineWorkerPropertiesTrait;
 
     /**
      * @param WorkerRequest $request
@@ -24,6 +24,7 @@ class WorkerController extends Controller
     )
     {
         $this->validateInput();
+        $this->setWorker();
     }
 
     /**
@@ -34,7 +35,7 @@ class WorkerController extends Controller
         $this->key = __('work_time.worker_now', ['name' => $this->workerName]);
         try {
 
-            $this->model = $this->workerService->now();
+            $this->model = $this->workerService->now($this->workerName);
 
         } catch (Exception $e) {
             $this->setProp($e->getMessage());
@@ -52,7 +53,7 @@ class WorkerController extends Controller
         $this->key = __('work_time.worker_history', ['name' => $this->workerName]);
         try {
 
-            $this->collection = $this->workerService->history();
+            $this->collection = $this->workerService->history($this->workerName);
 
         } catch (Exception $e) {
             $this->setProp($e->getMessage());

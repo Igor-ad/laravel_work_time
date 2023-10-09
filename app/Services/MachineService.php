@@ -2,8 +2,7 @@
 
 namespace App\Services;
 
-use App\Http\Controllers\MachineWorkerPropertiesTrait;
-use App\Http\Requests\Api\MachineRequest;
+use App\Models\Machine;
 use App\Repositories\HistoryRepository;
 use Exception;
 use Illuminate\Database\Eloquent\Collection;
@@ -11,29 +10,24 @@ use RuntimeException;
 
 class MachineService
 {
-    use MachineWorkerPropertiesTrait;
-
     /**
      * @param HistoryRepository $historyRepository
-     * @param MachineRequest $request
      */
     public function __construct(
         protected HistoryRepository $historyRepository,
-        protected MachineRequest    $request,
     )
     {
-        $this->validateInput();
     }
 
     /**
+     * @param int $machineId
      * @return Collection
      */
-    public function now(): Collection
+    public function now(int $machineId): Collection
     {
         try {
-            $this->setMachine();
 
-            return $this->machine->worker()->get('name');
+            return Machine::find($machineId)->worker()->get('name');
 
         } catch (Exception $e) {
             throw new RuntimeException($e->getMessage());
@@ -41,14 +35,14 @@ class MachineService
     }
 
     /**
+     * @param int $machineId
      * @return Collection
      */
-    public function history(): Collection
+    public function history(int $machineId): Collection
     {
         try {
-            $this->setMachine();
 
-            return $this->historyRepository->machineHistory($this->machineId);
+            return $this->historyRepository->machineHistory($machineId);
 
         } catch (Exception $e) {
             throw new RuntimeException($e->getMessage());

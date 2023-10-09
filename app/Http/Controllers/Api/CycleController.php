@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\MachineWorkerValidateTrait;
+use App\Http\Controllers\MachineWorkerPropertiesTrait;
 use App\Http\Controllers\ResponseTrait;
 use App\Http\Requests\Api\CycleRequest;
 use App\Services\CycleService;
@@ -12,7 +12,7 @@ use Illuminate\Http\JsonResponse;
 
 class CycleController extends Controller
 {
-    use ResponseTrait, MachineWorkerValidateTrait;
+    use ResponseTrait, MachineWorkerPropertiesTrait;
 
     /**
      * @param CycleService $cycleService
@@ -24,6 +24,8 @@ class CycleController extends Controller
     )
     {
         $this->validateInput();
+        $this->setMachine();
+        $this->setWorker();
     }
 
     /**
@@ -33,7 +35,7 @@ class CycleController extends Controller
     {
         try {
 
-            $this->cycleService->start();
+            $this->cycleService->start($this->machineId, $this->workerName);
 
         } catch (Exception $e) {
             $this->setProp(__('work_time.error'), $e->getMessage());
@@ -52,7 +54,7 @@ class CycleController extends Controller
     {
         try {
 
-            $this->cycleService->end();
+            $this->cycleService->end($this->machineId, $this->workerName);
 
         } catch (Exception $e) {
             $this->setProp(__('work_time.error'), $e->getMessage());

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\MachineWorkerValidateTrait;
+use App\Http\Controllers\MachineWorkerPropertiesTrait;
 use App\Http\Controllers\ResponseTrait;
 use App\Http\Requests\Api\MachineRequest;
 use App\Services\MachineService;
@@ -12,7 +12,7 @@ use Illuminate\Http\JsonResponse;
 
 class MachineController extends Controller
 {
-    use ResponseTrait, MachineWorkerValidateTrait;
+    use ResponseTrait, MachineWorkerPropertiesTrait;
 
     /**
      * @param MachineService $machineService
@@ -24,6 +24,7 @@ class MachineController extends Controller
     )
     {
         $this->validateInput();
+        $this->setMachine();
     }
 
     /**
@@ -34,7 +35,7 @@ class MachineController extends Controller
         $this->key = __('work_time.machine_now', ['id' => $this->machineId]);
         try {
 
-            $this->model = $this->machineService->now();
+            $this->model = $this->machineService->now($this->machineId);
 
         } catch (Exception $e) {
             $this->setProp($e->getMessage());
@@ -53,7 +54,7 @@ class MachineController extends Controller
         $this->key = __('work_time.machine_history', ['id' => $this->machineId]);
         try {
 
-            $this->collection = $this->machineService->history();
+            $this->collection = $this->machineService->history($this->machineId);
 
         } catch (Exception $e) {
             $this->setProp($e->getMessage());
