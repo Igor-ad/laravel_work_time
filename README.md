@@ -9,7 +9,7 @@
 
 ## Laravel Work Time
 ### REST API queries implementation
-
+```
 - commands of application init:
 - - cd /path_to_application
 - - ./vendor/bin/sail up -d
@@ -19,12 +19,12 @@
 
 
 -  \app\Enums\PathEnum this file contains all system paths.
-
+```
 
 #### Examples of requests and responses
 
 #### machine list request
-
+```
 > GET http://localhost:80/api/machines/?api_token=**********
 
 > HTTP/1.1 200 OK
@@ -61,11 +61,11 @@ Access-Control-Allow-Origin: *
 ]
 }
 }
-
+```
 ========
 
 #### worker list request
-
+```
 > GET http://localhost:80/api/workers/?api_token=**********
 
 >HTTP/1.1 200 OK
@@ -114,15 +114,17 @@ Access-Control-Allow-Origin: *
 ]
 }
 }
-
+```
 ========
 
 #### set machine usage (worker Андрей, machine ID 102)
-
+```
 > POST http://localhost:80/api/start/?machine=102&worker=Андрей&api_token=**********
+```
 
 #### the machine is in use
 
+```
 >HTTP/1.1 501 Not Implemented
 Host: localhost:80
 Date: Mon, 02 Oct 2023 10:34:51 GMT
@@ -152,9 +154,11 @@ Access-Control-Allow-Origin: *
 "msg": "machine ID 24 not found in the system"
 }
 }
+```
 
 #### worker not found in the system
 
+```
 > {
 "error": {
 "machine": 23,
@@ -184,15 +188,19 @@ Access-Control-Allow-Origin: *
 "msg": "the cycle started successfully"
 }
 }
+```
 
 ======== 
 
 ##### set the end of use of the machine (worker Андрей, machine ID 102)
 
+```
 > PUT http://localhost:80/api/end/?machine=102&worker=Андрей&api_token=**********
+```
 
 #### the machine is not in use
 
+```
 >HTTP/1.1 501 Not Implemented
 Host: localhost:80
 Date: Mon, 02 Oct 2023 11:01:53 GMT
@@ -212,6 +220,7 @@ Access-Control-Allow-Origin: *
 "msg": "error, machine 102 is not using now"
 }
 }
+```
 
 **the machine not found in the system** [`see this`](#the-machine-not-found-in-the-system) 
 
@@ -219,6 +228,7 @@ Access-Control-Allow-Origin: *
 
 #### end of machine use
 
+```
 >HTTP/1.1 200 OK
 Host: localhost:80
 Date: Mon, 02 Oct 2023 14:02:56 GMT
@@ -238,11 +248,13 @@ Access-Control-Allow-Origin: *
 "msg": "the cycle completed successfully"
 }
 }
+```
 
 ========
 
 ##### request for up-to-date information on the worker Андрей
 
+```
 > GET http://localhost:80/api/worker_now/?worker=Андрей&api_token=**********
 
 > HTTP/1.1 200 OK
@@ -264,6 +276,7 @@ Access-Control-Allow-Origin: *
 }
 ]
 }
+```
 
 **worker not found in the system** [`see this`](#worker-not-found-in-the-system)
 
@@ -271,6 +284,7 @@ Access-Control-Allow-Origin: *
 
 ##### request for up-to-date information on the machine 102
 
+```
 > GET http://localhost:80/api/machine_now/?machine=102&api_token=**********
 
 > HTTP/1.1 200 OK
@@ -295,11 +309,13 @@ Access-Control-Allow-Origin: *
 }
 ]
 }
+```
 
 **worker not found in the system** [`see this`](#worker-not-found-in-the-system)
 
 #### validation error
 
+```
 > HTTP/1.0 422 Unprocessable Content
 Host: localhost:80
 Date: Mon, 02 Oct 2023 09:59:47 GMT
@@ -317,11 +333,13 @@ Access-Control-Allow-Origin: *
 ]
 }
 }
+```
 
 ========
 
 ##### request of the machine usage history
 
+```
 > GET http://localhost:80/api/machine_history/?machine=102&api_token=**********
 
 > HTTP/1.1 200 OK
@@ -373,6 +391,7 @@ Access-Control-Allow-Origin: *
 ]
 }
 }
+```
 
 **the machine not found in the system** [`see this`](#the-machine-not-found-in-the-system)
 
@@ -380,6 +399,7 @@ Access-Control-Allow-Origin: *
 
 ##### request of the worker job history with pagination
 
+```
 > GET http://localhost:80/api/worker_history/?worker=Андрей&page=3&per_page=5&api_token=**********
 
 > HTTP/1.1 200 OK
@@ -433,6 +453,7 @@ Access-Control-Allow-Origin: *
 }
 }
 }
+```
 
 **worker not found in the system** [`see this`](#worker-not-found-in-the-system)
 
