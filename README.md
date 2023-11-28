@@ -13,8 +13,6 @@
 > ./vendor/bin/sail artisan db:seed
 ```
 
--  \app\Enums\PathEnum this file contains all system paths.
-
 #### Examples of requests and responses
 
 #### machine list request

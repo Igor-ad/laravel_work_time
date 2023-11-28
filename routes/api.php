@@ -1,6 +1,5 @@
 <?php
 
-use App\Enums\PathEnum as Path;
 use App\Http\Controllers\Api\CycleController;
 use App\Http\Controllers\Api\MachineController;
 use App\Http\Controllers\Api\MachineIndexController;
@@ -20,14 +19,14 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware(['auth:api'])->group(callback: function () {
-    Route::get(Path::getWorkers->value, [WorkerIndexController::class, 'index']);
-    Route::get(Path::getMachines->value, [MachineIndexController::class, 'index']);
-    Route::get(Path::getWorkerHistory->value, [WorkerController::class, 'history']);
-    Route::get(Path::getMachineHistory->value, [MachineController::class, 'history']);
-    Route::get(Path::getWorkerNow->value, [WorkerController::class, 'now']);
-    Route::get(Path::getMachineNow->value, [MachineController::class, 'now']);
-    Route::post(Path::setStart->value, [CycleController::class, 'start']);
-    Route::put(Path::setEnd->value, [CycleController::class, 'end']);
+    Route::get('/workers', [WorkerIndexController::class, 'index'])->name('workers');
+    Route::get('/machines', [MachineIndexController::class, 'index'])->name('machines');
+    Route::get('/worker_history', [WorkerController::class, 'history'])->name('worker.log');
+    Route::get('/machine_history', [MachineController::class, 'history'])->name('machine.log');
+    Route::get('/worker_now', [WorkerController::class, 'now'])->name('worker.now');
+    Route::get('/machine_now', [MachineController::class, 'now'])->name('machine.now');
+    Route::post('/start', [CycleController::class, 'start'])->name('start');
+    Route::put('/end', [CycleController::class, 'end'])->name('end');
 });
 
 Route::post('/login', ['as' => 'login']);
