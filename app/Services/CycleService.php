@@ -13,9 +13,6 @@ use RuntimeException;
 
 class CycleService
 {
-    /**
-     * @param HistoryRepository $historyRepository
-     */
     public function __construct(
         protected HistoryRepository $historyRepository,
     )
@@ -23,9 +20,6 @@ class CycleService
     }
 
     /**
-     * @param int $machineId
-     * @param string $workerName
-     * @return void
      * @throws Exception
      */
     public function start(int $machineId, string $workerName): void
@@ -44,9 +38,6 @@ class CycleService
     }
 
     /**
-     * @param int $machineId
-     * @param string $workerName
-     * @return void
      * @throws Exception
      */
     public function end(int $machineId, string $workerName): void
@@ -64,10 +55,6 @@ class CycleService
         DB::commit();
     }
 
-    /**
-     * @param int $machineId
-     * @return void
-     */
     private function startConditions(int $machineId): void
     {
         $used = Machine::find($machineId)->worker()->first();
@@ -79,11 +66,6 @@ class CycleService
         }
     }
 
-    /**
-     * @param int $machineId
-     * @param string $workerName
-     * @return void
-     */
     private function startCycle(int $machineId, string $workerName): void
     {
         $worker = Worker::where('name', $workerName)->first();
@@ -93,11 +75,6 @@ class CycleService
         $this->historyRepository->create($worker->id, $machineId, $cycle->id);
     }
 
-    /**
-     * @param int $machineId
-     * @param string $workerName
-     * @return History
-     */
     private function endConditions(int $machineId, string $workerName): History
     {
         $history = $this->historyRepository->cycleIdToUse($machineId, $workerName);
@@ -110,11 +87,6 @@ class CycleService
         return $history;
     }
 
-    /**
-     * @param History $history
-     * @param int $machineId
-     * @return void
-     */
     private function endCycle(History $history, int $machineId): void
     {
         Cycle::find($history->getAttribute('id'))->update(['complete' => true]);

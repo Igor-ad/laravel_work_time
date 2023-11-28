@@ -8,12 +8,6 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class HistoryRepository
 {
-    /**
-     * @param int $workerId
-     * @param int $machineId
-     * @param int $cycleId
-     * @return History|null
-     */
     public function create(int $workerId, int $machineId, int $cycleId): ?History
     {
         return History::create([
@@ -23,10 +17,6 @@ class HistoryRepository
         ]);
     }
 
-    /**
-     * @param int $machineId
-     * @return Collection|null
-     */
     public function machineHistory(int $machineId): ?Collection
     {
         return History::join('machines', 'machines.id', 'histories.machine_id')
@@ -43,10 +33,6 @@ class HistoryRepository
             ->get();
     }
 
-    /**
-     * @param string $workerName
-     * @return LengthAwarePaginator|null
-     */
     public function workerHistory(string $workerName): ?LengthAwarePaginator
     {
         return History::join('workers', 'workers.id', 'histories.worker_id')
@@ -63,11 +49,6 @@ class HistoryRepository
             ->paginate(request('per_page'));
     }
 
-    /**
-     * @param int $machineId
-     * @param string $workerName
-     * @return History|null
-     */
     public function cycleIdToUse(int $machineId, string $workerName): ?History
     {
         return History::join('machines', 'machines.id', 'histories.machine_id')

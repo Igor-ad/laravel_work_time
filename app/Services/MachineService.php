@@ -10,19 +10,12 @@ use RuntimeException;
 
 class MachineService
 {
-    /**
-     * @param HistoryRepository $historyRepository
-     */
     public function __construct(
         protected HistoryRepository $historyRepository,
     )
     {
     }
 
-    /**
-     * @param int $machineId
-     * @return Collection
-     */
     public function now(int $machineId): Collection
     {
         try {
@@ -34,10 +27,6 @@ class MachineService
         }
     }
 
-    /**
-     * @param int $machineId
-     * @return Collection
-     */
     public function history(int $machineId): Collection
     {
         try {

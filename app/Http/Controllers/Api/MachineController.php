@@ -14,10 +14,6 @@ class MachineController extends Controller
 {
     use ResponseTrait, MachineWorkerPropertiesTrait;
 
-    /**
-     * @param MachineService $machineService
-     * @param MachineRequest $request
-     */
     public function __construct(
         protected MachineService $machineService,
         protected MachineRequest $request,
@@ -27,9 +23,6 @@ class MachineController extends Controller
         $this->setMachine();
     }
 
-    /**
-     * @return JsonResponse
-     */
     public function now(): JsonResponse
     {
         $this->key = __('work_time.machine_now', ['id' => $this->machineId]);
@@ -46,9 +39,6 @@ class MachineController extends Controller
         return $this->responseResource();
     }
 
-    /**
-     * @return JsonResponse
-     */
     public function history(): JsonResponse
     {
         $this->key = __('work_time.machine_history', ['id' => $this->machineId]);

@@ -11,9 +11,6 @@ class MachineIndexController extends Controller
 {
     use ResponseTrait;
 
-    /**
-     * @return JsonResponse
-     */
     public function index(): JsonResponse
     {
         $this->key = __('work_time.machines');

@@ -18,11 +18,6 @@ trait ResponseTrait
     protected Collect|null $model = null;
     protected Collection|LengthAwarePaginator|null $collection = null;
 
-    /**
-     * @param JsonSerializable $jsonSerializable
-     * @param int $status
-     * @return JsonResponse
-     */
     public function commonResponse(JsonSerializable $jsonSerializable, int $status): JsonResponse
     {
         return response()->json([
@@ -33,9 +28,6 @@ trait ResponseTrait
         );
     }
 
-    /**
-     * @return JsonResponse
-     */
     public function paginateCollect(): JsonResponse
     {
         $jsonSerializable = new PaginateResource($this->collection);
@@ -43,9 +35,6 @@ trait ResponseTrait
         return $this->commonResponse($jsonSerializable, Response::HTTP_OK);
     }
 
-    /**
-     * @return JsonResponse
-     */
     public function responseCollect(): JsonResponse
     {
         $jsonSerializable = new CollectionResource($this->collection);
@@ -53,9 +42,6 @@ trait ResponseTrait
         return $this->commonResponse($jsonSerializable, Response::HTTP_OK);
     }
 
-    /**
-     * @return JsonResponse
-     */
     public function responseResource(): JsonResponse
     {
         $jsonSerializable = new ModelResource($this->model);
@@ -63,9 +49,6 @@ trait ResponseTrait
         return $this->commonResponse($jsonSerializable, Response::HTTP_OK);
     }
 
-    /**
-     * @return JsonResponse
-     */
     public function responseCreate(): JsonResponse
     {
         $jsonSerializable = new ModelResource($this->model);
@@ -73,9 +56,6 @@ trait ResponseTrait
         return $this->commonResponse($jsonSerializable, Response::HTTP_CREATED);
     }
 
-    /**
-     * @return JsonResponse
-     */
     public function responseError(): JsonResponse
     {
         $jsonSerializable = new ModelResource($this->model);

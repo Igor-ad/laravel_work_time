@@ -14,10 +14,6 @@ class WorkerController extends Controller
 {
     use ResponseTrait, MachineWorkerPropertiesTrait;
 
-    /**
-     * @param WorkerRequest $request
-     * @param WorkerService $workerService
-     */
     public function __construct(
         protected WorkerRequest $request,
         protected WorkerService $workerService,
@@ -27,9 +23,6 @@ class WorkerController extends Controller
         $this->setWorker();
     }
 
-    /**
-     * @return JsonResponse
-     */
     public function now(): JsonResponse
     {
         $this->key = __('work_time.worker_now', ['name' => $this->workerName]);
@@ -45,9 +38,6 @@ class WorkerController extends Controller
         return $this->responseResource();
     }
 
-    /**
-     * @return JsonResponse
-     */
     public function history(): JsonResponse
     {
         $this->key = __('work_time.worker_history', ['name' => $this->workerName]);
@@ -63,10 +53,6 @@ class WorkerController extends Controller
         return $this->paginateCollect();
     }
 
-    /**
-     * @param string $message
-     * @return void
-     */
     private function setProp(string $message): void
     {
         $this->key = __('work_time.error');

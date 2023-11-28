@@ -18,9 +18,6 @@ trait MachineWorkerPropertiesTrait
     protected Worker $worker;
     protected Machine $machine;
 
-    /**
-     * @return void
-     */
     public function setMachine(): void
     {
         $machine = Machine::where('id', $this->machineId)->first();
@@ -29,9 +26,6 @@ trait MachineWorkerPropertiesTrait
         $this->machine = $machine;
     }
 
-    /**
-     * @return void
-     */
     public function setWorker(): void
     {
         $worker = Worker::where('name', $this->workerName)->first();
@@ -40,11 +34,6 @@ trait MachineWorkerPropertiesTrait
         $this->worker = $worker;
     }
 
-    /**
-     * @param Machine|Worker|null $model
-     * @param string $message
-     * @return void
-     */
     private function exists(null|Machine|Worker $model, string $message): void
     {
         if (is_null($model)) {

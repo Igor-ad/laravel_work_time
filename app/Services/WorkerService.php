@@ -11,19 +11,12 @@ use RuntimeException;
 
 class WorkerService
 {
-    /**
-     * @param HistoryRepository $historyRepository
-     */
     public function __construct(
         protected HistoryRepository $historyRepository,
     )
     {
     }
 
-    /**
-     * @param string $workerName
-     * @return Collection
-     */
     public function now(string $workerName): Collection
     {
         try {
@@ -35,10 +28,6 @@ class WorkerService
         }
     }
 
-    /**
-     * @param string $workerName
-     * @return LengthAwarePaginator
-     */
     public function history(string $workerName): LengthAwarePaginator
     {
         try {

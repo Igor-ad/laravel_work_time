@@ -14,10 +14,6 @@ class CycleController extends Controller
 {
     use ResponseTrait, MachineWorkerPropertiesTrait;
 
-    /**
-     * @param CycleService $cycleService
-     * @param CycleRequest $request
-     */
     public function __construct(
         protected CycleService $cycleService,
         protected CycleRequest $request,
@@ -28,9 +24,6 @@ class CycleController extends Controller
         $this->setWorker();
     }
 
-    /**
-     * @return JsonResponse
-     */
     public function start(): JsonResponse
     {
         try {
@@ -47,9 +40,6 @@ class CycleController extends Controller
         return $this->responseCreate();
     }
 
-    /**
-     * @return JsonResponse
-     */
     public function end(): JsonResponse
     {
         try {
@@ -66,11 +56,6 @@ class CycleController extends Controller
         return $this->responseResource();
     }
 
-    /**
-     * @param string $key
-     * @param string $message
-     * @return void
-     */
     private function setProp(string $key, string $message): void
     {
         $this->key = $key;
