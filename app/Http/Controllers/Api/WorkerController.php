@@ -1,18 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\MachineWorkerPropertiesTrait;
+use App\Http\Controllers\MachineWorkerValidateTrait;
 use App\Http\Controllers\ResponseTrait;
 use App\Http\Requests\Api\WorkerRequest;
+use App\Http\Resources\WorkerJobHistoryResource;
+use App\Http\Resources\WorkerUsesNowResource;
 use App\Services\WorkerService;
-use Exception;
 use Illuminate\Http\JsonResponse;
 
 class WorkerController extends Controller
 {
-    use ResponseTrait, MachineWorkerPropertiesTrait;
+    use ResponseTrait, MachineWorkerValidateTrait;
 
     public function __construct(
         protected WorkerRequest $request,
@@ -20,42 +23,25 @@ class WorkerController extends Controller
     )
     {
         $this->validateInput();
-        $this->setWorker();
     }
 
     public function now(): JsonResponse
     {
-        $this->key = __('work_time.worker_now', ['name' => $this->workerName]);
-        try {
+        $collection = $this->workerService->now($this->workerName);
+        $collection->put('name', $this->workerName);
 
-            $this->model = $this->workerService->now($this->workerName);
-
-        } catch (Exception $e) {
-            $this->setProp($e->getMessage());
-
-            return $this->responseError();
-        }
-        return $this->responseResource();
+        return $this->collectionResponse(
+            new WorkerUsesNowResource($collection)
+        );
     }
 
     public function history(): JsonResponse
     {
-        $this->key = __('work_time.worker_history', ['name' => $this->workerName]);
-        try {
+        $collection = $this->workerService->history($this->workerName);
+        $collection->put('name', $this->workerName);
 
-            $this->collection = $this->workerService->history($this->workerName);
-
-        } catch (Exception $e) {
-            $this->setProp($e->getMessage());
-
-            return $this->responseError();
-        }
-        return $this->paginateCollect();
-    }
-
-    private function setProp(string $message): void
-    {
-        $this->key = __('work_time.error');
-        $this->model = collect(['worker' => $this->workerName, 'msg' => $message]);
+        return $this->collectionResponse(
+            new WorkerJobHistoryResource($collection),
+        );
     }
 }

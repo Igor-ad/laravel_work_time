@@ -1,18 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\MachineWorkerPropertiesTrait;
+use App\Http\Controllers\MachineWorkerValidateTrait;
 use App\Http\Controllers\ResponseTrait;
 use App\Http\Requests\Api\MachineRequest;
+use App\Http\Resources\MachineUsageHistoryResource;
+use App\Http\Resources\MachineUsedNowResource;
 use App\Services\MachineService;
-use Exception;
 use Illuminate\Http\JsonResponse;
 
 class MachineController extends Controller
 {
-    use ResponseTrait, MachineWorkerPropertiesTrait;
+    use ResponseTrait, MachineWorkerValidateTrait;
 
     public function __construct(
         protected MachineService $machineService,
@@ -20,43 +23,25 @@ class MachineController extends Controller
     )
     {
         $this->validateInput();
-        $this->setMachine();
     }
 
     public function now(): JsonResponse
     {
-        $this->key = __('work_time.machine_now', ['id' => $this->machineId]);
-        try {
+        $collection = $this->machineService->now($this->machineId);
+        $collection->put('id', $this->machineId);
 
-            $this->model = $this->machineService->now($this->machineId);
-
-        } catch (Exception $e) {
-            $this->setProp($e->getMessage());
-
-            return $this->responseError();
-        }
-
-        return $this->responseResource();
+        return $this->collectionResponse(
+            new MachineUsedNowResource($collection)
+        );
     }
 
     public function history(): JsonResponse
     {
-        $this->key = __('work_time.machine_history', ['id' => $this->machineId]);
-        try {
+        $collection = $this->machineService->history($this->machineId);
+        $collection->put('id', $this->machineId);
 
-            $this->collection = $this->machineService->history($this->machineId);
-
-        } catch (Exception $e) {
-            $this->setProp($e->getMessage());
-
-            return $this->responseError();
-        }
-        return $this->responseCollect();
-    }
-
-    private function setProp(string $message): void
-    {
-        $this->key = __('work_time.error');
-        $this->model = collect(['machine' => $this->machineId, 'msg' => $message]);
+        return $this->collectionResponse(
+            new MachineUsageHistoryResource($collection),
+        );
     }
 }

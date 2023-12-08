@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Repositories;
 
 use App\Models\History;
@@ -33,7 +35,7 @@ class HistoryRepository
             ->get();
     }
 
-    public function workerHistory(string $workerName): ?LengthAwarePaginator
+    public function workerHistory(string $workerName): LengthAwarePaginator
     {
         return History::join('workers', 'workers.id', 'histories.worker_id')
             ->join('cycles', 'cycles.id', 'histories.cycle_id')

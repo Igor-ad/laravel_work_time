@@ -12,15 +12,10 @@ class WorkerRequest extends ApiFormRequest
         return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
-     */
     public function rules(): array
     {
         return [
-            'worker' => ['required', 'string'],
+            'worker' => ['required', 'string', 'exists:workers,name'],
             'page' => ['integer'],
             'per_page' => ['integer'],
         ];

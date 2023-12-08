@@ -1,40 +1,43 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services;
 
+use App\Exceptions\CycleServiceException;
 use App\Models\Machine;
 use App\Repositories\HistoryRepository;
-use Exception;
 use Illuminate\Database\Eloquent\Collection;
-use RuntimeException;
 
 class MachineService
 {
     public function __construct(
-        protected HistoryRepository $historyRepository,
+        protected HistoryRepository $history,
     )
     {
     }
 
     public function now(int $machineId): Collection
     {
-        try {
+        $collection = Machine::find($machineId)->worker()->get('name');
 
-            return Machine::find($machineId)->worker()->get('name');
-
-        } catch (Exception $e) {
-            throw new RuntimeException($e->getMessage());
+        if (!$collection->value('name')) {
+            throw new CycleServiceException(
+                __('work_time.machine_not_use', ['id' => $machineId])
+            );
         }
+        return $collection;
     }
 
     public function history(int $machineId): Collection
     {
-        try {
+        $collection = $this->history->machineHistory($machineId);
 
-            return $this->historyRepository->machineHistory($machineId);
-
-        } catch (Exception $e) {
-            throw new RuntimeException($e->getMessage());
+        if (!$collection->toArray()) {
+            throw new CycleServiceException(
+                __('work_time.machine_history_fail', ['id' => $machineId])
+            );
         }
+        return $collection;
     }
 }

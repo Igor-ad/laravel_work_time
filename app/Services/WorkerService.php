@@ -1,41 +1,44 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services;
 
+use App\Exceptions\CycleServiceException;
 use App\Models\Worker;
 use App\Repositories\HistoryRepository;
-use Exception;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
-use RuntimeException;
 
 class WorkerService
 {
     public function __construct(
-        protected HistoryRepository $historyRepository,
+        protected HistoryRepository $history,
     )
     {
     }
 
     public function now(string $workerName): Collection
     {
-        try {
+        $collection = Worker::where('name', $workerName)->first()->machinesNow()->get('id');
 
-            return Worker::where('name', $workerName)->first()->machinesNow()->get('id');
-
-        } catch (Exception $e) {
-            throw new RuntimeException($e->getMessage());
+        if (!$collection->value('id')) {
+            throw new CycleServiceException(
+                __('work_time.worker_not_busy', ['name' => $workerName])
+            );
         }
+        return $collection;
     }
 
     public function history(string $workerName): LengthAwarePaginator
     {
-        try {
+        $collection = $this->history->workerHistory($workerName);
 
-            return $this->historyRepository->workerHistory($workerName);
-
-        } catch (Exception $e) {
-            throw new RuntimeException($e->getMessage());
+        if (!$collection->toArray()['data']) {
+            throw new CycleServiceException(
+                __('work_time.worker_history_fail', ['name' => $workerName])
+            );
         }
+        return $collection;
     }
 }

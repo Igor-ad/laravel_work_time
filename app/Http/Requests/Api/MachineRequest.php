@@ -12,15 +12,10 @@ class MachineRequest extends ApiFormRequest
         return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
-     */
     public function rules(): array
     {
         return [
-            'machine' => ['required', 'integer', 'min:23', 'max:102'],
+            'machine' => ['required', 'integer', 'exists:machines,id'],
         ];
     }
 }

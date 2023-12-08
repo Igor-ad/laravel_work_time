@@ -1,18 +1,23 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\MachineWorkerPropertiesTrait;
+use App\Http\Controllers\MachineWorkerValidateTrait;
 use App\Http\Controllers\ResponseTrait;
 use App\Http\Requests\Api\CycleRequest;
+use App\Http\Resources\CycleEndResource;
+use App\Http\Resources\CycleStartResource;
 use App\Services\CycleService;
-use Exception;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Response;
+use Illuminate\Support\Collection;
 
 class CycleController extends Controller
 {
-    use ResponseTrait, MachineWorkerPropertiesTrait;
+    use ResponseTrait, MachineWorkerValidateTrait;
 
     public function __construct(
         protected CycleService $cycleService,
@@ -20,49 +25,32 @@ class CycleController extends Controller
     )
     {
         $this->validateInput();
-        $this->setMachine();
-        $this->setWorker();
     }
 
     public function start(): JsonResponse
     {
-        try {
+        $this->cycleService->start($this->machineId, $this->workerName);
 
-            $this->cycleService->start($this->machineId, $this->workerName);
-
-        } catch (Exception $e) {
-            $this->setProp(__('work_time.error'), $e->getMessage());
-
-            return $this->responseError();
-        }
-        $this->setProp(__('work_time.message'), __('work_time.start_cycle'));
-
-        return $this->responseCreate();
+        return $this->collectionResponse(
+            new CycleStartResource($this->toCollect()),
+            Response::HTTP_CREATED
+        );
     }
 
     public function end(): JsonResponse
     {
-        try {
+        $this->cycleService->end($this->machineId, $this->workerName);
 
-            $this->cycleService->end($this->machineId, $this->workerName);
-
-        } catch (Exception $e) {
-            $this->setProp(__('work_time.error'), $e->getMessage());
-
-            return $this->responseError();
-        }
-        $this->setProp(__('work_time.message'), __('work_time.end_cycle'));
-
-        return $this->responseResource();
+        return $this->collectionResponse(
+            new CycleEndResource($this->toCollect()),
+        );
     }
 
-    private function setProp(string $key, string $message): void
+    public function toCollect(): Collection
     {
-        $this->key = $key;
-        $this->model = collect([
+        return collect([
             'machine' => $this->machineId,
             'worker' => $this->workerName,
-            'msg' => $message,
         ]);
     }
 }

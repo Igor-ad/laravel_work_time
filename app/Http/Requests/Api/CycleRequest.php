@@ -12,16 +12,11 @@ class CycleRequest extends ApiFormRequest
         return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
-     */
     public function rules(): array
     {
         return [
-            'worker' => ['required', 'string'],
-            'machine' => ['required', 'integer', 'min:23', 'max:102'],
+            'worker' => ['required', 'string', 'exists:workers,name'],
+            'machine' => ['required', 'integer', 'exists:machines,id'],
         ];
     }
 }
