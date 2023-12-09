@@ -32,26 +32,25 @@ X-RateLimit-Remaining: 59
 Access-Control-Allow-Origin: *
 
 {
-	"machines": {
-		"count": 5,
-		"data": [
-			{
-				"id": 23
-			},
-			{
-				"id": 44
-			},
-			{
-				"id": 56
-			},
-			{
-				"id": 78
-			},
-			{
-				"id": 102
-			}
-		]
-	}
+    "message": "machines",
+    "count": 5,
+    "data": [
+        {
+            "id": 23
+        },
+        {
+            "id": 44
+        },
+        {
+            "id": 56
+        },
+        {
+            "id": 78
+        },
+        {
+            "id": 102
+        }
+    ]
 }
 ```
 ========
@@ -73,38 +72,37 @@ X-RateLimit-Remaining: 59
 Access-Control-Allow-Origin: *
 
 {
-	"workers": {
-		"count": 9,
-		"data": [
-			{
-				"name": "Андрей"
-			},
-			{
-				"name": "Сергей"
-			},
-			{
-				"name": "Михаил"
-			},
-			{
-				"name": "Стас"
-			},
-			{
-				"name": "Артем"
-			},
-			{
-				"name": "Татьяна"
-			},
-			{
-				"name": "Евгений"
-			},
-			{
-				"name": "Катя"
-			},
-			{
-				"name": "Борис"
-			}
-		]
-	}
+    "message": "workers",
+    "count": 10,
+    "data": [
+        {
+            "name": "Андрей"
+        },
+        {
+            "name": "Сергей"
+        },
+        {
+            "name": "Михаил"
+        },
+        {
+            "name": "Стас"
+        },
+        {
+            "name": "Артем"
+        },
+        {
+            "name": "Татьяна"
+        },
+        {
+            "name": "Евгений"
+        },
+        {
+            "name": "Катя"
+        },
+        {
+            "name": "Борис"
+        }
+    ]
 }
 ```
 ========
@@ -130,11 +128,7 @@ X-RateLimit-Remaining: 59
 Access-Control-Allow-Origin: *
 
 {
-	"error": {
-		"machine": 102,
-		"worker": "Андрей",
-		"msg": "error, the machine ID 102 is currently in use"
-	}
+    "error": "machine ID 44 is currently in use"
 }
 ```
 
@@ -142,11 +136,12 @@ Access-Control-Allow-Origin: *
 
 ```
 {
-	"error": {
-		"machine": 24,
-		"worker": "Андрей",
-		"msg": "machine ID 24 not found in the system"
-	}
+    "status": 422,
+    "errors": {
+        "worker": [
+            "The selected worker is invalid."
+        ]
+    }
 }
 ```
 
@@ -154,11 +149,12 @@ Access-Control-Allow-Origin: *
 
 ```
 {
-	"error": {
-		"machine": 23,
-		"worker": "Андрейs",
-		"msg": "worker Андрейs not found in the system"
-	}
+    "status": 422,
+    "errors": {
+        "machine": [
+            "The selected machine is invalid."
+        ]
+    }
 }
 ```
 
@@ -178,11 +174,11 @@ X-RateLimit-Remaining: 59
 Access-Control-Allow-Origin: *
 
 {
-	"message": {
-		"machine": 102,
-		"worker": "Андрей",
-		"msg": "the cycle started successfully"
-	}
+    "message": "the cycle started successfully",
+    "data": {
+        "machine": 44,
+        "worker": "Андрей"
+    }
 }
 ```
 
@@ -210,11 +206,7 @@ X-RateLimit-Remaining: 59
 Access-Control-Allow-Origin: *
 
 {
-	"error": {
-		"machine": 102,
-		"worker": "Андрей",
-		"msg": "error, machine 102 is not using now"
-	}
+    "error": "machine ID 44 is not using now"
 }
 ```
 
@@ -238,11 +230,11 @@ X-RateLimit-Remaining: 59
 Access-Control-Allow-Origin: *
 
 {
-	"message": {
-		"machine": 102,
-		"worker": "Андрей",
-		"msg": "the cycle completed successfully"
-	}
+    "message": "the cycle completed successfully",
+    "data": {
+        "machine": 44,
+        "worker": "Андрей"	
+    }
 }
 ```
 
@@ -266,11 +258,15 @@ X-RateLimit-Remaining: 59
 Access-Control-Allow-Origin: *
 
 {
-	"Андрей uses machine(s)": [
-		{
-			"id": 102
-		}
-	]
+    "message": "Андрей uses machine(s)",
+    "data": [
+        {
+            "id": 44
+        },
+        {
+            "id": 102
+        }
+    ]
 }
 ```
 
@@ -296,14 +292,12 @@ X-RateLimit-Remaining: 57
 Access-Control-Allow-Origin: *
 
 {
-	"Андрей uses machine(s)": [
-		{
-			"id": 23
-		},
-		{
-			"id": 102
-		}
-	]
+    "message": "machine 102 is used by",
+    "data": [
+        {
+            "name": "Андрей"
+        }
+    ]
 }
 ```
 
@@ -340,7 +334,7 @@ GET http://localhost:80/api/machine_history/?machine=102&api_token=**********
 
 HTTP/1.1 200 OK
 Host: localhost:80
-Date: Mon, 02 Oct 2023 10:53:10 GMT
+Date: Mon, 16 Oct 2023 10:53:10 GMT
 Connection: close
 X-Powered-By: PHP/8.2.10
 Cache-Control: no-cache, private
@@ -351,41 +345,48 @@ X-RateLimit-Remaining: 59
 Access-Control-Allow-Origin: *
 
 {
-	"history machine usage with ID 102": {
-		"count": 5,
-		"data": [
-			{
-				"worker": "Андрей",
-				"start": "2023-09-29 08:01:36",
-				"end": "2023-09-29 08:01:36",
-				"complete": 0
-			},
-			{
-				"worker": "Андрей",
-				"start": "2023-09-29 07:53:33",
-				"end": "2023-09-29 07:54:51",
-				"complete": 1
-			},
-			{
-				"worker": "Андрей",
-				"start": "2023-09-29 07:45:11",
-				"end": "2023-09-29 07:48:34",
-				"complete": 1
-			},
-			{
-				"worker": "Андрей",
-				"start": "2023-09-29 07:42:53",
-				"end": "2023-09-29 07:44:48",
-				"complete": 1
-			},
-			{
-				"worker": "Андрей",
-				"start": "2023-09-29 07:29:43",
-				"end": "2023-09-29 07:42:36",
-				"complete": 1
-			}
-		]
-	}
+    "message": "history machine usage with ID 102",
+    "count": 5,
+    "data": [
+        {
+            "worker": "Андрей",
+            "start": "2023-10-09 18:48:42",
+            "end": "2023-10-09 18:49:18",
+            "complete": 1
+        },
+        {
+            "worker": "Андрей",
+            "start": "2023-10-09 16:40:26",
+            "end": "2023-10-09 18:47:55",
+            "complete": 1
+        },
+        {
+            "worker": "Андрей",
+            "start": "2023-10-09 16:40:18",
+            "end": "2023-10-09 16:40:21",
+            "complete": 1
+        },
+        {
+            "worker": "Андрей",
+            "start": "2023-10-09 16:26:07",
+            "end": "2023-10-09 16:26:10",
+            "complete": 1
+        },
+        {
+            "worker": "Андрей",
+            "start": "2023-10-09 16:21:58",
+            "end": "2023-10-09 16:22:02",
+            "complete": 1
+        }
+    ]
+}
+```
+
+#### the machine has not been used yet
+
+```
+{
+    "error": "machine ID 56 has not been used yet"
 }
 ```
 
@@ -400,7 +401,7 @@ GET http://localhost:80/api/worker_history/?worker=Андрей&page=3&per_page=
 
 HTTP/1.1 200 OK
 Host: localhost:80
-Date: Mon, 02 Oct 2023 10:54:10 GMT
+Date: Mon, 16 Oct 2023 10:54:10 GMT
 Connection: close
 X-Powered-By: PHP/8.2.10
 Cache-Control: no-cache, private
@@ -411,43 +412,50 @@ X-RateLimit-Remaining: 59
 Access-Control-Allow-Origin: *
 
 {
-	"history job worker Андрей": {
-		"data": [
-			{
-				"machine": 23,
-				"start": "2023-09-29 10:08:46",
-				"end": "2023-09-29 10:08:56",
-				"complete": 1
-			},
-			{
-				"machine": 23,
-				"start": "2023-09-29 10:08:15",
-				"end": "2023-09-29 10:08:26",
-				"complete": 1
-			},
-			{
-				"machine": 23,
-				"start": "2023-09-29 10:42:47",
-				"end": "2023-09-29 10:42:59",
-				"complete": 1
-			}
-		],
-		"meta": {
-			"from": 11,
-			"to": 13,
-			"current_page": 3,
-			"last_page": 3,
-			"per_page": 5,
-			"total": 13,
-			"link": {
-				"path": "http://localhost/api/worker_history/",
-				"first_page_url": "http://localhost/api/worker_history/?page=1",
-				"prev_page_url": "http://localhost/api/worker_history/?page=2",
-				"next_page_url": null,
-				"last_page_url": "http://localhost/api/worker_history/?page=3"
-			}
-		}
-	}
+    "message": "history job worker Андрей",
+    "data": [
+        {
+            "machine": 102,
+            "start": "2023-10-09 16:26:07",
+            "end": "2023-10-09 16:26:10",
+            "complete": 1
+        },
+        {
+            "machine": 102,
+            "start": "2023-10-09 16:21:58",
+            "end": "2023-10-09 16:22:02",
+            "complete": 1
+        },
+        {
+            "machine": 102,
+            "start": "2023-10-09 13:28:49",
+            "end": "2023-10-09 16:21:53",
+            "complete": 1
+        }
+    ],
+    "meta": {
+        "from": 4,
+        "to": 7,
+        "current_page": 2,
+        "last_page": 23,
+        "per_page": 3,
+        "total": 68,
+        "link": {
+            "path": "http:\/\/192.168.4.145\/api\/worker_history",
+            "first_page_url": "http:\/\/192.168.4.145\/api\/worker_history?page=1",
+            "prev_page_url": "http:\/\/192.168.4.145\/api\/worker_history?page=1",
+            "next_page_url": "http:\/\/192.168.4.145\/api\/worker_history?page=3",
+            "last_page_url": "http:\/\/192.168.4.145\/api\/worker_history?page=23"
+        }
+    }
+}
+```
+
+#### the worker has no work history
+
+```
+{
+    "error": "worker Борис has no history yet"
 }
 ```
 
