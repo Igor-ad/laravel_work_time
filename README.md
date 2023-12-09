@@ -136,7 +136,6 @@ Access-Control-Allow-Origin: *
 
 ```
 {
-    "status": 422,
     "errors": {
         "worker": [
             "The selected worker is invalid."
@@ -149,7 +148,6 @@ Access-Control-Allow-Origin: *
 
 ```
 {
-    "status": 422,
     "errors": {
         "machine": [
             "The selected machine is invalid."
