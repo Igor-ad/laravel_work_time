@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-use App\Exceptions\CycleServiceException;
+use App\Exceptions\WorkerException;
 use App\Models\Worker;
 use App\Repositories\HistoryRepository;
 use Illuminate\Database\Eloquent\Collection;
@@ -23,7 +23,7 @@ class WorkerService
         $collection = Worker::where('name', $workerName)->first()->machinesNow()->get('id');
 
         if (!$collection->value('id')) {
-            throw new CycleServiceException(
+            throw new WorkerException(
                 __('work_time.worker_not_busy', ['name' => $workerName])
             );
         }
@@ -35,7 +35,7 @@ class WorkerService
         $collection = $this->history->workerHistory($workerName);
 
         if (!$collection->toArray()['data']) {
-            throw new CycleServiceException(
+            throw new WorkerException(
                 __('work_time.worker_history_fail', ['name' => $workerName])
             );
         }

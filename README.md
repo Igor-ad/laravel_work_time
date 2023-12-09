@@ -1,6 +1,7 @@
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
 ## Laravel Work Time
+
 ### REST API queries implementation
 
 - commands of application init:
@@ -16,20 +17,9 @@
 #### Examples of requests and responses
 
 #### machine list request
+
 ```
 GET http://localhost:80/api/machines/?api_token=**********
-
-HTTP/1.1 200 OK
-Host: localhost:80
-Date: Mon, 02 Oct 2023 10:17:58 GMT
-Connection: close
-X-Powered-By: PHP/8.2.10
-Cache-Control: no-cache, private
-Date: Mon, 02 Oct 2023 10:17:58 GMT
-Content-Type: application/json
-X-RateLimit-Limit: 60
-X-RateLimit-Remaining: 59
-Access-Control-Allow-Origin: *
 
 {
     "message": "machines",
@@ -53,23 +43,13 @@ Access-Control-Allow-Origin: *
     ]
 }
 ```
+
 ========
 
 #### worker list request
+
 ```
 GET http://localhost:80/api/workers/?api_token=**********
-
-HTTP/1.1 200 OK
-Host: localhost:80
-Date: Mon, 02 Oct 2023 10:31:44 GMT
-Connection: close
-X-Powered-By: PHP/8.2.10
-Cache-Control: no-cache, private
-Date: Mon, 02 Oct 2023 10:31:44 GMT
-Content-Type: application/json
-X-RateLimit-Limit: 60
-X-RateLimit-Remaining: 59
-Access-Control-Allow-Origin: *
 
 {
     "message": "workers",
@@ -105,9 +85,11 @@ Access-Control-Allow-Origin: *
     ]
 }
 ```
+
 ========
 
 #### set machine usage (worker Андрей, machine ID 102)
+
 ```
 POST http://localhost:80/api/start/?machine=102&worker=Андрей&api_token=**********
 ```
@@ -115,20 +97,10 @@ POST http://localhost:80/api/start/?machine=102&worker=Андрей&api_token=**
 #### the machine is in use
 
 ```
-HTTP/1.1 501 Not Implemented
-Host: localhost:80
-Date: Mon, 02 Oct 2023 10:34:51 GMT
-Connection: close
-X-Powered-By: PHP/8.2.10
-Cache-Control: no-cache, private
-Date: Mon, 02 Oct 2023 10:34:51 GMT
-Content-Type: application/json
-X-RateLimit-Limit: 60
-X-RateLimit-Remaining: 59
-Access-Control-Allow-Origin: *
-
 {
-    "error": "machine ID 44 is currently in use"
+    "errors": {
+        "machine": "the machine ID 56 is currently in use"
+    }
 }
 ```
 
@@ -136,8 +108,8 @@ Access-Control-Allow-Origin: *
 
 ```
 {
-    "errors": {
-        "worker": [
+    "errors": { 
+        "machine": [
             "The selected worker is invalid."
         ]
     }
@@ -149,7 +121,7 @@ Access-Control-Allow-Origin: *
 ```
 {
     "errors": {
-        "machine": [
+        "worker": [
             "The selected machine is invalid."
         ]
     }
@@ -159,18 +131,6 @@ Access-Control-Allow-Origin: *
 #### starting to use the machine
 
 ```
-HTTP/1.1 201 Created
-Host: localhost:80
-Date: Mon, 02 Oct 2023 10:36:02 GMT
-Connection: close
-X-Powered-By: PHP/8.2.10
-Cache-Control: no-cache, private
-Date: Mon, 02 Oct 2023 10:36:02 GMT
-Content-Type: application/json
-X-RateLimit-Limit: 60
-X-RateLimit-Remaining: 59
-Access-Control-Allow-Origin: *
-
 {
     "message": "the cycle started successfully",
     "data": {
@@ -191,20 +151,10 @@ PUT http://localhost:80/api/end/?machine=102&worker=Андрей&api_token=*****
 #### the machine is not in use
 
 ```
-HTTP/1.1 501 Not Implemented
-Host: localhost:80
-Date: Mon, 02 Oct 2023 11:01:53 GMT
-Connection: close
-X-Powered-By: PHP/8.2.10
-Cache-Control: no-cache, private
-Date: Mon, 02 Oct 2023 14:01:53 GMT
-Content-Type: application/json
-X-RateLimit-Limit: 60
-X-RateLimit-Remaining: 59
-Access-Control-Allow-Origin: *
-
 {
-    "error": "machine ID 44 is not using now"
+    "errors": {
+        "machine": "the machine ID 78 is not currently in use"
+    }
 }
 ```
 
@@ -215,18 +165,6 @@ Access-Control-Allow-Origin: *
 #### end of machine use
 
 ```
-HTTP/1.1 200 OK
-Host: localhost:80
-Date: Mon, 02 Oct 2023 14:02:56 GMT
-Connection: close
-X-Powered-By: PHP/8.2.10
-Cache-Control: no-cache, private
-Date: Mon, 02 Oct 2023 14:02:56 GMT
-Content-Type: application/json
-X-RateLimit-Limit: 60
-X-RateLimit-Remaining: 59
-Access-Control-Allow-Origin: *
-
 {
     "message": "the cycle completed successfully",
     "data": {
@@ -242,18 +180,6 @@ Access-Control-Allow-Origin: *
 
 ```
 GET http://localhost:80/api/worker_now/?worker=Андрей&api_token=**********
-
-HTTP/1.1 200 OK
-Host: localhost:80
-Date: Mon, 02 Oct 2023 10:49:26 GMT
-Connection: close
-X-Powered-By: PHP/8.2.10
-Cache-Control: no-cache, private
-Date: Mon, 02 Oct 2023 14:49:26 GMT
-Content-Type: application/json
-X-RateLimit-Limit: 60
-X-RateLimit-Remaining: 59
-Access-Control-Allow-Origin: *
 
 {
     "message": "Андрей uses machine(s)",
@@ -277,18 +203,6 @@ Access-Control-Allow-Origin: *
 ```
 GET http://localhost:80/api/machine_now/?machine=102&api_token=**********
 
-HTTP/1.1 200 OK
-Host: localhost:80
-Date: Mon, 02 Oct 2023 10:52:17 GMT
-Connection: close
-X-Powered-By: PHP/8.2.10
-Cache-Control: no-cache, private
-Date: Mon, 02 Oct 2023 14:52:17 GMT
-Content-Type: application/json
-X-RateLimit-Limit: 60
-X-RateLimit-Remaining: 57
-Access-Control-Allow-Origin: *
-
 {
     "message": "machine 102 is used by",
     "data": [
@@ -304,16 +218,6 @@ Access-Control-Allow-Origin: *
 #### validation error
 
 ```
-HTTP/1.0 422 Unprocessable Content
-Host: localhost:80
-Date: Mon, 02 Oct 2023 09:59:47 GMT
-Connection: close
-X-Powered-By: PHP/8.2.10
-Cache-Control: no-cache, private
-Date: Mon, 02 Oct 2023 09:59:47 GMT
-Content-Type: application/json
-Access-Control-Allow-Origin: *
-
 {
 	"errors": {
 		"machine": [
@@ -329,18 +233,6 @@ Access-Control-Allow-Origin: *
 
 ```
 GET http://localhost:80/api/machine_history/?machine=102&api_token=**********
-
-HTTP/1.1 200 OK
-Host: localhost:80
-Date: Mon, 16 Oct 2023 10:53:10 GMT
-Connection: close
-X-Powered-By: PHP/8.2.10
-Cache-Control: no-cache, private
-Date: Mon, 02 Oct 2023 14:53:10 GMT
-Content-Type: application/json
-X-RateLimit-Limit: 60
-X-RateLimit-Remaining: 59
-Access-Control-Allow-Origin: *
 
 {
     "message": "history machine usage with ID 102",
@@ -384,7 +276,9 @@ Access-Control-Allow-Origin: *
 
 ```
 {
-    "error": "machine ID 56 has not been used yet"
+    "errors": {
+        "machine": "machine ID 56 has not been used yet"
+    }
 }
 ```
 
@@ -396,18 +290,6 @@ Access-Control-Allow-Origin: *
 
 ```
 GET http://localhost:80/api/worker_history/?worker=Андрей&page=3&per_page=5&api_token=**********
-
-HTTP/1.1 200 OK
-Host: localhost:80
-Date: Mon, 16 Oct 2023 10:54:10 GMT
-Connection: close
-X-Powered-By: PHP/8.2.10
-Cache-Control: no-cache, private
-Date: Mon, 02 Oct 2023 14:54:10 GMT
-Content-Type: application/json
-X-RateLimit-Limit: 60
-X-RateLimit-Remaining: 59
-Access-Control-Allow-Origin: *
 
 {
     "message": "history job worker Андрей",
@@ -453,7 +335,9 @@ Access-Control-Allow-Origin: *
 
 ```
 {
-    "error": "worker Борис has no history yet"
+    "errors": {
+        "worker": "worker Борис has no history yet"
+    }
 }
 ```
 

@@ -9,15 +9,21 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-class CycleServiceException extends Exception
+class ServiceException extends Exception
 {
     public function render(Request $request): JsonResponse
     {
-        return response()->json([
-            'error' => $this->getMessage(),
-        ],
+        return response()->json(
+            data: $this->toArray(),
             status: Response::HTTP_NOT_IMPLEMENTED,
             options: JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT,
         );
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'errors' => $this->getMessage(),
+        ];
     }
 }

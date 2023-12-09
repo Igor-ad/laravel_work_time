@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-use App\Exceptions\CycleServiceException;
+use App\Exceptions\MachineException;
 use App\Models\Machine;
 use App\Repositories\HistoryRepository;
 use Illuminate\Database\Eloquent\Collection;
@@ -22,7 +22,7 @@ class MachineService
         $collection = Machine::find($machineId)->worker()->get('name');
 
         if (!$collection->value('name')) {
-            throw new CycleServiceException(
+            throw new MachineException(
                 __('work_time.machine_not_use', ['id' => $machineId])
             );
         }
@@ -34,7 +34,7 @@ class MachineService
         $collection = $this->history->machineHistory($machineId);
 
         if (!$collection->toArray()) {
-            throw new CycleServiceException(
+            throw new MachineException(
                 __('work_time.machine_history_fail', ['id' => $machineId])
             );
         }

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-use App\Exceptions\CycleServiceException;
+use App\Exceptions\MachineException;
 use App\Models\Cycle;
 use App\Models\History;
 use App\Models\Machine;
@@ -36,7 +36,7 @@ class CycleService
         $used = Machine::find($machineId)->worker()->first();
 
         if ($used) {
-            throw new CycleServiceException(
+            throw new MachineException(
                 __('work_time.start_fail', ['id' => $machineId])
             );
         }
@@ -56,7 +56,7 @@ class CycleService
         $history = $this->history->cycleIdToUse($machineId, $workerName);
 
         if (!$history) {
-            throw new CycleServiceException(
+            throw new MachineException(
                 __('work_time.end_fail', ['id' => $machineId])
             );
         }
