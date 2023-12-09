@@ -110,7 +110,7 @@ POST http://localhost:80/api/start/?machine=102&worker=Андрей&api_token=**
 {
     "errors": { 
         "machine": [
-            "The selected worker is invalid."
+            "The selected machine is invalid."
         ]
     }
 }
@@ -122,7 +122,7 @@ POST http://localhost:80/api/start/?machine=102&worker=Андрей&api_token=**
 {
     "errors": {
         "worker": [
-            "The selected machine is invalid."
+            "The selected worker is invalid."
         ]
     }
 }
