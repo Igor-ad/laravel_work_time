@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Exceptions;
+namespace App\Exceptions\Api;
 
 class WorkerException extends ServiceException
 {

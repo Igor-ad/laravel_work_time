@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests\Api;
 
-class CycleRequest extends ApiFormRequest
+use Illuminate\Foundation\Http\FormRequest;
+
+class CycleRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

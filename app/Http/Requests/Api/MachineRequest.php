@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests\Api;
 
-class MachineRequest extends ApiFormRequest
+use Illuminate\Foundation\Http\FormRequest;
+
+class MachineRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

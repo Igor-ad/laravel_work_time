@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Exceptions;
+namespace App\Exceptions\Api;
 
 use Exception;
 use Illuminate\Http\JsonResponse;
@@ -11,11 +11,13 @@ use Illuminate\Http\Response;
 
 class ServiceException extends Exception
 {
+    protected int $status = Response::HTTP_NOT_IMPLEMENTED;
+
     public function render(Request $request): JsonResponse
     {
         return response()->json(
             data: $this->toArray(),
-            status: Response::HTTP_NOT_IMPLEMENTED,
+            status: $this->status,
             options: JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT,
         );
     }

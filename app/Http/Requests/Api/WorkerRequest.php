@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests\Api;
 
-class WorkerRequest extends ApiFormRequest
+use Illuminate\Foundation\Http\FormRequest;
+
+class WorkerRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
