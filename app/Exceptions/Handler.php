@@ -4,9 +4,6 @@ namespace App\Exceptions;
 
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use Illuminate\Http\Exceptions\HttpResponseException;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 
@@ -34,41 +31,14 @@ class Handler extends ExceptionHandler
 
         $this->renderable(function (Throwable $e, $request) {
 
-            if ($request->is('api/*') && ($e instanceof MethodNotAllowedHttpException)) {
-                throw new HttpResponseException(
-                    response()->json(
-                        data: [
-                            'error' => $e->getMessage(),
-                        ],
-                        status: $e->getStatusCode(),
-                        options: JSON_PRETTY_PRINT,
-                    )
-                );
+            if ($e instanceof AuthenticationException) {
+                throw new ServiceException($e->getMessage());
             }
 
-            if ($request->is('api/*') && ($e instanceof AuthenticationException)) {
-                throw new HttpResponseException(
-                    response()->json(
-                        data: [
-                            'error' => $e->getMessage(),
-                        ],
-                        status: Response::HTTP_UNAUTHORIZED,
-                        options: JSON_PRETTY_PRINT,
-                    )
-                );
+            if ($e instanceof NotFoundHttpException) {
+                throw new ServiceException($e->getMessage());
             }
 
-            if ($request->is('api/*') && ($e instanceof NotFoundHttpException)) {
-                throw new HttpResponseException(
-                    response()->json(
-                        data: [
-                            'error' => $e->getMessage(),
-                        ],
-                        status: $e->getStatusCode(),
-                        options: JSON_PRETTY_PRINT,
-                    )
-                );
-            }
         });
     }
 }
