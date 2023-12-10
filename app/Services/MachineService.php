@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-use App\Exceptions\MachineException;
+use App\Exceptions\Api\MachineException;
 use App\Models\Machine;
 use App\Repositories\HistoryRepository;
 use Illuminate\Database\Eloquent\Collection;

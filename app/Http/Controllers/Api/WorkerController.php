@@ -6,7 +6,6 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\MachineWorkerValidateTrait;
-use App\Http\Controllers\ResponseTrait;
 use App\Http\Requests\Api\WorkerRequest;
 use App\Http\Resources\WorkerJobHistoryResource;
 use App\Http\Resources\WorkerUsesNowResource;
@@ -15,7 +14,7 @@ use Illuminate\Http\JsonResponse;
 
 class WorkerController extends Controller
 {
-    use ResponseTrait, MachineWorkerValidateTrait;
+    use MachineWorkerValidateTrait;
 
     public function __construct(
         protected WorkerRequest $request,
@@ -30,7 +29,7 @@ class WorkerController extends Controller
         $collection = $this->workerService->now($this->workerName);
         $collection->put('name', $this->workerName);
 
-        return $this->collectionResponse(
+        return $this->apiResponse(
             new WorkerUsesNowResource($collection)
         );
     }
@@ -40,7 +39,7 @@ class WorkerController extends Controller
         $collection = $this->workerService->history($this->workerName);
         $collection->put('name', $this->workerName);
 
-        return $this->collectionResponse(
+        return $this->apiResponse(
             new WorkerJobHistoryResource($collection),
         );
     }

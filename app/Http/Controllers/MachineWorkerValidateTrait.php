@@ -18,7 +18,10 @@ trait MachineWorkerValidateTrait
     {
         $validData = $this->request->validated();
 
-        $this->workerName = Arr::exists($validData, 'worker') ? (string)$validData['worker'] : null;
-        $this->machineId = Arr::exists($validData, 'machine') ? (int)$validData['machine'] : null;
+        $this->workerName = Arr::exists($validData, 'worker')
+            ? (string)Arr::get($validData, 'worker') : null;
+
+        $this->machineId = Arr::exists($validData, 'machine')
+            ? (int)Arr::get($validData, 'machine') : null;
     }
 }

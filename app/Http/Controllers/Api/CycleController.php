@@ -6,7 +6,6 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\MachineWorkerValidateTrait;
-use App\Http\Controllers\ResponseTrait;
 use App\Http\Requests\Api\CycleRequest;
 use App\Http\Resources\CycleEndResource;
 use App\Http\Resources\CycleStartResource;
@@ -17,7 +16,7 @@ use Illuminate\Support\Collection;
 
 class CycleController extends Controller
 {
-    use ResponseTrait, MachineWorkerValidateTrait;
+    use MachineWorkerValidateTrait;
 
     public function __construct(
         protected CycleService $cycleService,
@@ -31,7 +30,7 @@ class CycleController extends Controller
     {
         $this->cycleService->start($this->machineId, $this->workerName);
 
-        return $this->collectionResponse(
+        return $this->apiResponse(
             new CycleStartResource($this->toCollect()),
             Response::HTTP_CREATED
         );
@@ -41,7 +40,7 @@ class CycleController extends Controller
     {
         $this->cycleService->end($this->machineId, $this->workerName);
 
-        return $this->collectionResponse(
+        return $this->apiResponse(
             new CycleEndResource($this->toCollect()),
         );
     }

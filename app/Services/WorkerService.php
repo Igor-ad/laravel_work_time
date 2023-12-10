@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-use App\Exceptions\WorkerException;
+use App\Exceptions\Api\WorkerException;
 use App\Models\Worker;
 use App\Repositories\HistoryRepository;
 use Illuminate\Database\Eloquent\Collection;

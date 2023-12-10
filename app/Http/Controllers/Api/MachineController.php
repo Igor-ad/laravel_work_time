@@ -6,7 +6,6 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\MachineWorkerValidateTrait;
-use App\Http\Controllers\ResponseTrait;
 use App\Http\Requests\Api\MachineRequest;
 use App\Http\Resources\MachineUsageHistoryResource;
 use App\Http\Resources\MachineUsedNowResource;
@@ -15,7 +14,7 @@ use Illuminate\Http\JsonResponse;
 
 class MachineController extends Controller
 {
-    use ResponseTrait, MachineWorkerValidateTrait;
+    use MachineWorkerValidateTrait;
 
     public function __construct(
         protected MachineService $machineService,
@@ -30,7 +29,7 @@ class MachineController extends Controller
         $collection = $this->machineService->now($this->machineId);
         $collection->put('id', $this->machineId);
 
-        return $this->collectionResponse(
+        return $this->apiResponse(
             new MachineUsedNowResource($collection)
         );
     }
@@ -40,7 +39,7 @@ class MachineController extends Controller
         $collection = $this->machineService->history($this->machineId);
         $collection->put('id', $this->machineId);
 
-        return $this->collectionResponse(
+        return $this->apiResponse(
             new MachineUsageHistoryResource($collection),
         );
     }
