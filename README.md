@@ -93,6 +93,11 @@ GET http://localhost:80/api/workers/?api_token=**********
 ```
 POST http://localhost:80/api/start/?machine=102&worker=Андрей&api_token=**********
 
+```
+
+#### starting to use the machine
+
+```
 {
     "message": "the cycle started successfully",
     "data": {
@@ -124,36 +129,24 @@ POST http://localhost:80/api/start/?machine=102&worker=Андрей&api_token=**
 }
 ```
 
-#### worker not found in the system
-
-```
-{
-    "errors": {
-        "worker": [
-            "The selected worker is invalid."
-        ]
-    }
-}
-```
-
-#### starting to use the machine
-
-```
-{
-    "message": "the cycle started successfully",
-    "data": {
-        "machine": 44,
-        "worker": "Андрей"
-    }
-}
-```
-
 ========
 
 ##### set the end of use of the machine (worker Андрей, machine ID 102)
 
 ```
 PUT http://localhost:80/api/end/?machine=102&worker=Андрей&api_token=**********
+```
+
+#### end of machine use
+
+```
+{
+    "message": "the cycle completed successfully",
+    "data": {
+        "machine": 102,
+        "worker": "Андрей"	
+    }
+}
 ```
 
 #### the machine is not in use
@@ -169,18 +162,6 @@ PUT http://localhost:80/api/end/?machine=102&worker=Андрей&api_token=*****
 **the machine not found in the system** [`see this`](#the-machine-not-found-in-the-system)
 
 **worker not found in the system** [`see this`](#worker-not-found-in-the-system)
-
-#### end of machine use
-
-```
-{
-    "message": "the cycle completed successfully",
-    "data": {
-        "machine": 44,
-        "worker": "Андрей"	
-    }
-}
-```
 
 ========
 
@@ -233,6 +214,15 @@ GET http://localhost:80/api/machine_now/?machine=102&api_token=**********
 		]
 	}
 }
+
+{
+	"errors": {
+		"worker": [
+			"The worker field is required."
+		]
+	}
+}
+
 ```
 
 ========
