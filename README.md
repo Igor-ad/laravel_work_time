@@ -92,6 +92,14 @@ GET http://localhost:80/api/workers/?api_token=**********
 
 ```
 POST http://localhost:80/api/start/?machine=102&worker=Андрей&api_token=**********
+
+{
+    "message": "the cycle started successfully",
+    "data": {
+        "machine": 102,
+        "worker": "Андрей"
+    }
+}
 ```
 
 #### the machine is in use

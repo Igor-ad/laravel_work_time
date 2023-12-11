@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -25,6 +26,21 @@ class Cycle extends Model
     protected $fillable = [
         'complete',
     ];
+
+    /**
+     *  Accessor for the 'complete' attribute.
+     */
+    protected function complete(): Attribute
+    {
+        return Attribute::make(
+            fn(bool $value) => $this->completeCasts($value),
+        );
+    }
+
+    protected function completeCasts(bool $value): string
+    {
+        return $value ? 'Complete' : 'Run';
+    }
 
     /**
      * @return BelongsToMany
