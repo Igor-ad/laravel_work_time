@@ -63,6 +63,6 @@ class History extends Model
             'cycle_id',
             'cycle_id',
             'id',
-        )->with('workers');
+        );
     }
 }
