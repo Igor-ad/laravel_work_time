@@ -6,39 +6,19 @@ namespace App\Services;
 
 use App\Exceptions\Api\WorkerException;
 use App\Models\Worker;
-use App\Repositories\HistoryRepository;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Pagination\LengthAwarePaginator;
 
 class WorkerService
 {
-    public function __construct(
-        protected HistoryRepository $history,
-    )
-    {
-    }
-
     public function now(string $workerName): Collection
     {
-        $collection = Worker::where('name', $workerName)->first()->machinesNow()->get('id');
+        $data = Worker::where('name', $workerName)->first()->machinesNow()->get('id');
 
-        if (!$collection->value('id')) {
+        if (!$data->value('id')) {
             throw new WorkerException(
                 __('work_time.worker_not_busy', ['name' => $workerName])
             );
         }
-        return $collection;
-    }
-
-    public function history(string $workerName): LengthAwarePaginator
-    {
-        $collection = $this->history->workerHistory($workerName);
-
-        if (!$collection->toArray()['data']) {
-            throw new WorkerException(
-                __('work_time.worker_history_fail', ['name' => $workerName])
-            );
-        }
-        return $collection;
+        return $data;
     }
 }

@@ -20,7 +20,7 @@ class Machine extends Model
         'worker_id',
     ];
 
-        /**
+    /**
      * @return BelongsTo
      */
     public function worker(): BelongsTo
@@ -33,7 +33,8 @@ class Machine extends Model
      */
     public function workers(): BelongsToMany
     {
-        return $this->belongsToMany(Worker::class, 'histories');
+        return $this->belongsToMany(Worker::class, 'histories')
+            ->with('cycles');
     }
 
     /**
@@ -41,6 +42,8 @@ class Machine extends Model
      */
     public function cycles(): BelongsToMany
     {
-        return $this->belongsToMany(Cycle::class, 'histories');
+        return $this->belongsToMany(Cycle::class, 'histories')
+            ->as('cycle_machine')
+            ->with('workers');
     }
 }

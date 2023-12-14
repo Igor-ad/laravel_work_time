@@ -5,11 +5,25 @@ declare(strict_types=1);
 namespace App\Repositories;
 
 use App\Models\History;
+use App\Models\Machine;
+use App\Models\Worker;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class HistoryRepository
 {
+    public function cycleIdToUse(int $machineId, string $workerName): ?History
+    {
+        return History::join('machines', 'machines.id', 'histories.machine_id')
+            ->join('cycles', 'cycles.id', 'histories.cycle_id')
+            ->join('workers', 'workers.id', 'histories.worker_id')
+            ->where('machines.id', $machineId)
+            ->where('workers.name', $workerName)
+            ->where('cycles.complete', false)
+            ->select('cycles.id')
+            ->first();
+    }
+
     public function create(int $workerId, int $machineId, int $cycleId): ?History
     {
         return History::create([
@@ -19,7 +33,12 @@ class HistoryRepository
         ]);
     }
 
-    public function machineHistory(int $machineId): ?Collection
+    public function machineCycleRelationHistory(int $machineId): Collection
+    {
+        return Machine::find($machineId)->cycles()->get();
+    }
+
+    public function machineHistory(int $machineId): Collection
     {
         return History::join('machines', 'machines.id', 'histories.machine_id')
             ->join('cycles', 'cycles.id', 'histories.cycle_id')
@@ -33,6 +52,11 @@ class HistoryRepository
             )
             ->orderBy('cycles.id', 'desc')
             ->get();
+    }
+
+    public function machineRelationHistory(int $machineId): Collection
+    {
+        return History::with(['cycles'])->where('machine_id', $machineId)->get();
     }
 
     public function workerHistory(string $workerName): LengthAwarePaginator
@@ -51,15 +75,9 @@ class HistoryRepository
             ->paginate(request('per_page'));
     }
 
-    public function cycleIdToUse(int $machineId, string $workerName): ?History
+    public function workerRelationHistory(string $workerName): LengthAwarePaginator
     {
-        return History::join('machines', 'machines.id', 'histories.machine_id')
-            ->join('cycles', 'cycles.id', 'histories.cycle_id')
-            ->join('workers', 'workers.id', 'histories.worker_id')
-            ->where('machines.id', $machineId)
-            ->where('workers.name', $workerName)
-            ->where('cycles.complete', false)
-            ->select('cycles.id')
-            ->first();
+        return Worker::where('name', $workerName)->first()
+            ->cycles()->paginate(request('per_page'));
     }
 }

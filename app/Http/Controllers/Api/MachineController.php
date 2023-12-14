@@ -9,6 +9,9 @@ use App\Http\Controllers\MachineWorkerValidateTrait;
 use App\Http\Requests\Api\MachineRequest;
 use App\Http\Resources\MachineUsageHistoryResource;
 use App\Http\Resources\MachineUsedNowResource;
+use App\Services\MachineHistoryJoinService;
+use App\Services\MachineHistoryRelationService;
+use App\Services\MachineHistoryCycleRelationService;
 use App\Services\MachineService;
 use Illuminate\Http\JsonResponse;
 
@@ -17,8 +20,9 @@ class MachineController extends Controller
     use MachineWorkerValidateTrait;
 
     public function __construct(
-        protected MachineService $machineService,
-        protected MachineRequest $request,
+        protected MachineHistoryJoinService $history,
+        protected MachineService            $machineService,
+        protected MachineRequest            $request,
     )
     {
         $this->validateInput();
@@ -36,7 +40,7 @@ class MachineController extends Controller
 
     public function history(): JsonResponse
     {
-        $collection = $this->machineService->history($this->machineId);
+        $collection = $this->history->history($this->machineId);
         $collection->put('id', $this->machineId);
 
         return $this->apiResponse(

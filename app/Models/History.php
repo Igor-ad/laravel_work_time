@@ -26,7 +26,14 @@ class History extends Model
      */
     public function workers(): BelongsToMany
     {
-        return $this->belongsToMany(Worker::class, 'histories');
+        return $this->belongsToMany(
+            Worker::class,
+            'histories',
+            'worker_id',
+            'worker_id',
+            'worker_id',
+            'id',
+        );
     }
 
     /**
@@ -34,7 +41,14 @@ class History extends Model
      */
     public function machines(): BelongsToMany
     {
-        return $this->belongsToMany(Machine::class, 'histories');
+        return $this->belongsToMany(
+            Machine::class,
+            'histories',
+            'machine_id',
+            'machine_id',
+            'machine_id',
+            'id',
+        );
     }
 
     /**
@@ -42,6 +56,13 @@ class History extends Model
      */
     public function cycles(): BelongsToMany
     {
-        return $this->belongsToMany(Cycle::class, 'histories');
+        return $this->belongsToMany(
+            Cycle::class,
+            'histories',
+            'cycle_id',
+            'cycle_id',
+            'cycle_id',
+            'id',
+        );
     }
 }

@@ -33,7 +33,9 @@ class Worker extends Model
      */
     public function cycles(): BelongsToMany
     {
-        return $this->belongsToMany(Cycle::class, 'histories');
+        return $this->belongsToMany(Cycle::class, 'histories')
+            ->as('cycle_worker')
+            ->with('machines');
     }
 
     /**
