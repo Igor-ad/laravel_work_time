@@ -10,6 +10,7 @@ use App\Http\Requests\Api\WorkerRequest;
 use App\Http\Resources\WorkerJobHistoryResource;
 use App\Http\Resources\WorkerUsesNowResource;
 use App\Services\WorkerHistoryJoinService;
+use App\Services\WorkerHistoryCycleRelationService;
 use App\Services\WorkerHistoryRelationService;
 use App\Services\WorkerService;
 use Illuminate\Http\JsonResponse;

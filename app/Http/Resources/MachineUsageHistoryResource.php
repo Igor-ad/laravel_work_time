@@ -13,7 +13,7 @@ class MachineUsageHistoryResource extends ResourceCollection
     {
         return [
             'message' => __('work_time.machine_history', ['id' => $this->collection->get('id')]),
-            'count' => $this->collection->count(),
+            'count' => $this->collection->except('id')->count(),
             'data' => $this->collection->except('id'),
         ];
     }

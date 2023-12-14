@@ -37,6 +37,8 @@ class HistoryRepository
     {
         return Machine::find($machineId)
             ->cycles()
+            ->as('cycle_machine')
+            ->with(['workers'])
             ->select('id', 'created_at as start', 'updated_at as end', 'complete')
             ->get();
     }
@@ -81,10 +83,20 @@ class HistoryRepository
             ->paginate(request('per_page'));
     }
 
-    public function workerRelationHistory(string $workerName): LengthAwarePaginator
+    public function workerCycleRelationHistory(string $workerName): LengthAwarePaginator
     {
         return Worker::where('name', $workerName)->first()
             ->cycles()
+            ->with(['machines'])
+            ->paginate(request('per_page', 10));
+    }
+
+    public function workerRelationHistory(string $workerName): LengthAwarePaginator
+    {
+        return History::with(['cycles.machines'])
+            ->where('worker_id', function ($query) use ($workerName) {
+                return $query->select('id')->from('workers')->where('name', $workerName)->first();
+            })
             ->paginate(request('per_page', 10));
     }
 }

@@ -15,10 +15,22 @@ use App\Services\MachineHistoryCycleRelationService;
 use App\Services\MachineService;
 use Illuminate\Http\JsonResponse;
 
+/**
+ *  Implementations of Machine History:
+ *      App\Services\MachineHistoryJoinService;
+ *      App\Services\MachineHistoryRelationService;
+ *      App\Services\MachineHistoryCycleRelationService;
+ */
 class MachineController extends Controller
 {
     use MachineWorkerValidateTrait;
 
+    /**
+     *  $history - select implementation class
+     * @param MachineHistoryJoinService $history
+     * @param MachineService $machineService
+     * @param MachineRequest $request
+     */
     public function __construct(
         protected MachineHistoryJoinService $history,
         protected MachineService            $machineService,
