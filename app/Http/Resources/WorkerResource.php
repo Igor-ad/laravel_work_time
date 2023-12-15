@@ -13,7 +13,7 @@ class WorkerResource extends ResourceCollection
     {
         return [
             'message' => __('work_time.workers'),
-            'count' => $this->collection->count(),
+            'count' => $this->count(),
             'data' => $this->collection,
         ];
     }

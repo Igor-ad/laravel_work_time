@@ -13,7 +13,7 @@ class MachineResource extends ResourceCollection
     {
         return [
             'message' => __('work_time.machines'),
-            'count' => $this->collection->count(),
+            'count' => $this->count(),
             'data' => $this->collection,
         ];
     }

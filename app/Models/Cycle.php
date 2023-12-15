@@ -30,7 +30,8 @@ class Cycle extends Model
      */
     public function workers(): BelongsToMany
     {
-        return $this->belongsToMany(Worker::class, 'histories');
+        return $this->belongsToMany(Worker::class, 'histories')
+            ->as('cycle_worker');
     }
 
     /**
@@ -38,6 +39,7 @@ class Cycle extends Model
      */
     public function machines(): BelongsToMany
     {
-        return $this->belongsToMany(Machine::class, 'histories');
+        return $this->belongsToMany(Machine::class, 'histories')
+            ->as('cycle_machine');
     }
 }
