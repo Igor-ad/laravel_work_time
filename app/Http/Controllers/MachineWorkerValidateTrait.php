@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Arr;
-
 /**
  * This Trait is simplified Data Transfer Object
  */
@@ -16,12 +14,8 @@ trait MachineWorkerValidateTrait
 
     protected function validateInput(): void
     {
-        $validData = $this->request->validated();
+        $this->workerName = (string)$this->request->input('worker') ?? null;
 
-        $this->workerName = Arr::exists($validData, 'worker')
-            ? (string)Arr::get($validData, 'worker') : null;
-
-        $this->machineId = Arr::exists($validData, 'machine')
-            ? (int)Arr::get($validData, 'machine') : null;
+        $this->machineId = (int)$this->request->input('machine') ?? null;
     }
 }
