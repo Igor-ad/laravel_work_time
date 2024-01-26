@@ -5,14 +5,18 @@ declare(strict_types=1);
 namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class MachineUsageHistoryResource extends ResourceCollection
+class MachineUsageHistoryResource extends AbstractResourceCollection
 {
+    protected function getMessage(): string
+    {
+        return __('work_time.machine_history', ['id' => $this->collection->get('id')]);
+    }
+
     public function toArray(Request $request): array
     {
         return [
-            'message' => __('work_time.machine_history', ['id' => $this->collection->get('id')]),
+            'message' => $this->getMessage(),
             'count' => $this->collection->except('id')->count(),
             'data' => $this->collection->except('id'),
         ];

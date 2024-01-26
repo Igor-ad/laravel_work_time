@@ -4,17 +4,10 @@ declare(strict_types=1);
 
 namespace App\Http\Resources;
 
-use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\ResourceCollection;
-
-class WorkerResource extends ResourceCollection
+class WorkerResource extends AbstractResourceCollection
 {
-    public function toArray(Request $request): array
+    protected function getMessage(): string
     {
-        return [
-            'message' => __('work_time.workers'),
-            'count' => $this->count(),
-            'data' => $this->collection,
-        ];
+        return __('work_time.workers');
     }
 }

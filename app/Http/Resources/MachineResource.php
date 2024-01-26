@@ -4,17 +4,10 @@ declare(strict_types=1);
 
 namespace App\Http\Resources;
 
-use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\ResourceCollection;
-
-class MachineResource extends ResourceCollection
+class MachineResource extends AbstractResourceCollection
 {
-    public function toArray(Request $request): array
+    protected function getMessage(): string
     {
-        return [
-            'message' => __('work_time.machines'),
-            'count' => $this->count(),
-            'data' => $this->collection,
-        ];
+        return __('work_time.machines');
     }
 }
