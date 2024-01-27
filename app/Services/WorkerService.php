@@ -6,19 +6,24 @@ namespace App\Services;
 
 use App\Exceptions\Api\WorkerException;
 use App\Models\Worker;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Collection;
 
 class WorkerService
 {
+    /**
+     * @throws WorkerException
+     */
     public function now(string $workerName): Collection
     {
-        $data = Worker::where('name', $workerName)->first()->machinesNow()->get('id');
+        $worker = Worker::with('machinesNow')
+            ->where('name', $workerName)
+            ->first();
 
-        if (!$data->value('id')) {
+        if (!$worker->getAttribute('machinesNow')) {
             throw new WorkerException(
                 __('work_time.worker_not_busy', ['name' => $workerName])
             );
         }
-        return $data;
+        return collect(['worker' => $worker]);
     }
 }

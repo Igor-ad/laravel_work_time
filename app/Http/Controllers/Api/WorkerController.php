@@ -30,21 +30,20 @@ class WorkerController extends Controller
 
     public function now(): JsonResponse
     {
-        $data = $this->workerService->now($this->workerName);
-        $data->put('name', $this->workerName);
+        $collection = $this->workerService->now($this->workerName);
 
         return $this->apiResponse(
-            new WorkerUsesNowResource($data)
+            new WorkerUsesNowResource($collection)
         );
     }
 
     public function history(): JsonResponse
     {
-        $data = $this->history->history($this->workerName);
-        $data->put('name', $this->workerName);
+        $collection = $this->history->history($this->workerName);
+        $collection->put('name', $this->workerName);
 
         return $this->apiResponse(
-            new WorkerJobHistoryResource($data),
+            new WorkerJobHistoryResource($collection),
         );
     }
 }

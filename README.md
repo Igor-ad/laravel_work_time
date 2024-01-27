@@ -172,14 +172,23 @@ GET http://localhost:80/api/worker_now/?worker=Андрей&api_token=**********
 
 {
     "message": "Андрей uses machine(s)",
-    "data": [
-        {
-            "id": 44
-        },
-        {
-            "id": 102
+    "count": 1,
+    "data": {
+        "worker": {
+            "id": 1,
+            "name": "Андрей",
+            "machines_now": [
+                {
+                    "id": 23,
+                    "worker_id": 1
+                },
+                {
+                    "id": 56,
+                    "worker_id": 1
+                }
+            ]
         }
-    ]
+    }
 }
 ```
 
@@ -193,12 +202,18 @@ GET http://localhost:80/api/worker_now/?worker=Андрей&api_token=**********
 GET http://localhost:80/api/machine_now/?machine=102&api_token=**********
 
 {
-    "message": "machine 102 is used by",
-    "data": [
-        {
-            "name": "Андрей"
+    "message": "machine ID 102 is used by",
+    "count": 1,
+    "data": {
+        "machine": {
+            "id": 102,
+            "worker_id": 1,
+            "worker": {
+                "id": 1,
+                "name": "Андрей"
+            }
         }
-    ]
+    }
 }
 ```
 

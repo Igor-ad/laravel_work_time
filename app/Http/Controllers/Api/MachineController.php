@@ -43,7 +43,6 @@ class MachineController extends Controller
     public function now(): JsonResponse
     {
         $collection = $this->machineService->now($this->machineId);
-        $collection->put('id', $this->machineId);
 
         return $this->apiResponse(
             new MachineUsedNowResource($collection)
