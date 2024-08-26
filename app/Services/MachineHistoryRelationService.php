@@ -12,9 +12,7 @@ class MachineHistoryRelationService implements MachineHistoryInterface
 {
     public function __construct(
         protected HistoryRepository $history,
-    )
-    {
-    }
+    ) {}
 
     public function history(int $machineId): Collection
     {

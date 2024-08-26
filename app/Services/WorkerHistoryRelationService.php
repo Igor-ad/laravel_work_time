@@ -12,9 +12,7 @@ class WorkerHistoryRelationService implements WorkerHistoryInterface
 {
     public function __construct(
         protected HistoryRepository $history,
-    )
-    {
-    }
+    ) {}
 
     public function history(string $workerName): LengthAwarePaginator
     {

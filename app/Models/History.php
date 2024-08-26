@@ -12,18 +12,12 @@ class History extends Model
 
     public $timestamps = false;
 
-    /**
-     * @var string[]
-     */
     protected $fillable = [
         'worker_id',
         'machine_id',
         'cycle_id',
     ];
 
-    /**
-     * @return BelongsToMany
-     */
     public function workers(): BelongsToMany
     {
         return $this->belongsToMany(
@@ -36,9 +30,6 @@ class History extends Model
         );
     }
 
-    /**
-     * @return BelongsToMany
-     */
     public function machines(): BelongsToMany
     {
         return $this->belongsToMany(
@@ -51,9 +42,6 @@ class History extends Model
         );
     }
 
-    /**
-     * @return BelongsToMany
-     */
     public function cycles(): BelongsToMany
     {
         return $this->belongsToMany(

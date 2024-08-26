@@ -10,9 +10,6 @@ class Cycle extends Model
 {
     use HasFactory;
 
-    /**
-     * @var string[]
-     */
     protected $fillable = [
         'complete',
     ];
@@ -25,18 +22,12 @@ class Cycle extends Model
         return $value ? 'Complete' : 'Run';
     }
 
-    /**
-     * @return BelongsToMany
-     */
     public function workers(): BelongsToMany
     {
         return $this->belongsToMany(Worker::class, 'histories')
             ->as('cycle_worker');
     }
 
-    /**
-     * @return BelongsToMany
-     */
     public function machines(): BelongsToMany
     {
         return $this->belongsToMany(Machine::class, 'histories')

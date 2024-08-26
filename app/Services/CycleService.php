@@ -15,9 +15,7 @@ class CycleService
 {
     public function __construct(
         protected HistoryRepository $history,
-    )
-    {
-    }
+    ) {}
 
     public function start(int $machineId, string $workerName): void
     {

@@ -6,19 +6,21 @@ namespace App\Services;
 
 use App\Exceptions\Api\MachineException;
 
-use App\Models\Machine;
+use App\Repositories\MachineRepository;
 use Illuminate\Support\Collection;
 
 class MachineService
 {
+    public function __construct(
+        protected MachineRepository $repository,
+    ) {}
+
     /**
      * @throws MachineException
      */
     public function now(int $machineId): Collection
     {
-        $machine = Machine::with('worker')
-            ->where('id', $machineId)
-            ->first();
+        $machine = $this->repository->statusNow($machineId);
 
         if (!$machine->getAttribute('worker_id')) {
             throw new MachineException(

@@ -13,37 +13,23 @@ class Machine extends Model
 
     public $timestamps = false;
 
-    /**
-     * @var string[]
-     */
     protected $fillable = [
         'worker_id',
     ];
 
-    /**
-     * @return BelongsTo
-     */
     public function worker(): BelongsTo
     {
         return $this->belongsTo(Worker::class, 'worker_id', 'id');
     }
 
-    /**
-     * @return BelongsToMany
-     */
     public function workers(): BelongsToMany
     {
         return $this->belongsToMany(Worker::class, 'histories');
-//            ->with('cycles');
     }
 
-    /**
-     * @return BelongsToMany
-     */
     public function cycles(): BelongsToMany
     {
         return $this->belongsToMany(Cycle::class, 'histories')
             ->as('cycle_machine');
-//            ->with('workers');
     }
 }
