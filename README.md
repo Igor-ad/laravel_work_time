@@ -19,7 +19,7 @@
 #### machine list request
 
 ```
-GET http://localhost:80/api/machines/?api_token=**********
+GET /api/machines
 
 {
     "message": "machines",
@@ -49,7 +49,7 @@ GET http://localhost:80/api/machines/?api_token=**********
 #### worker list request
 
 ```
-GET http://localhost:80/api/workers/?api_token=**********
+GET /api/workers
 
 {
     "message": "workers",
@@ -91,7 +91,7 @@ GET http://localhost:80/api/workers/?api_token=**********
 #### set machine usage (worker Андрей, machine ID 102)
 
 ```
-POST http://localhost:80/api/start/?machine=102&worker=Андрей&api_token=**********
+POST /api/start?machine=102&worker=Андрей
 
 ```
 
@@ -134,7 +134,7 @@ POST http://localhost:80/api/start/?machine=102&worker=Андрей&api_token=**
 ##### set the end of use of the machine (worker Андрей, machine ID 102)
 
 ```
-PUT http://localhost:80/api/end/?machine=102&worker=Андрей&api_token=**********
+PUT /api/end?machine=102&worker=Андрей
 ```
 
 #### end of machine use
@@ -168,7 +168,7 @@ PUT http://localhost:80/api/end/?machine=102&worker=Андрей&api_token=*****
 ##### request for up-to-date information on the worker Андрей
 
 ```
-GET http://localhost:80/api/worker_now/?worker=Андрей&api_token=**********
+GET /api/worker_now?worker=Андрей
 
 {
     "message": "Андрей uses machine(s)",
@@ -199,7 +199,7 @@ GET http://localhost:80/api/worker_now/?worker=Андрей&api_token=**********
 ##### request for up-to-date information on the machine 102
 
 ```
-GET http://localhost:80/api/machine_now/?machine=102&api_token=**********
+GET /api/machine_now?machine=102
 
 {
     "message": "machine ID 102 is used by",
@@ -245,7 +245,7 @@ GET http://localhost:80/api/machine_now/?machine=102&api_token=**********
 ##### request of the machine usage history
 
 ```
-GET http://localhost:80/api/machine_history/?machine=102&api_token=**********
+GET /api/machine_history?machine=102
 
 {
     "message": "history machine usage with ID 102",
@@ -302,7 +302,7 @@ GET http://localhost:80/api/machine_history/?machine=102&api_token=**********
 ##### request of the worker job history with pagination
 
 ```
-GET http://localhost:80/api/worker_history/?worker=Андрей&page=3&per_page=5&api_token=**********
+GET /api/worker_history?worker=Андрей&page=3&per_page=5
 
 {
     "message": "history job worker Андрей",
