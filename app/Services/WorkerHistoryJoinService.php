@@ -12,8 +12,12 @@ class WorkerHistoryJoinService implements WorkerHistoryInterface
 {
     public function __construct(
         protected HistoryRepository $history,
-    ) {}
+    ) {
+    }
 
+    /**
+     * @throws WorkerException
+     */
     public function history(string $workerName): LengthAwarePaginator
     {
         $data = $this->history->workerHistory($workerName);

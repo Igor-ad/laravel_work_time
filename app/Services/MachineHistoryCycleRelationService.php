@@ -12,7 +12,8 @@ class MachineHistoryCycleRelationService implements MachineHistoryInterface
 {
     public function __construct(
         protected MachineRepository $repository,
-    ) {}
+    ) {
+    }
 
     /**
      * @throws MachineException

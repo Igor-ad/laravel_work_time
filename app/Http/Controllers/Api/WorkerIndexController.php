@@ -13,7 +13,7 @@ class WorkerIndexController extends Controller
 {
     public function index(): JsonResponse
     {
-        $collection = Worker::query()->orderBy('id')->get('name');
+        $collection = Worker::query()->orderBy('id')->get();
 
         return $this->apiResponse(
             new WorkerResource($collection),

@@ -15,20 +15,30 @@ class CycleService
 {
     public function __construct(
         protected HistoryRepository $history,
-    ) {}
+    ) {
+    }
 
+    /**
+     * @throws MachineException
+     */
     public function start(int $machineId, string $workerName): void
     {
         $this->startConditions($machineId);
         $this->startCycle($machineId, $workerName);
     }
 
+    /**
+     * @throws MachineException
+     */
     public function end(int $machineId, string $workerName): void
     {
         $history = $this->endConditions($machineId, $workerName);
         $this->endCycle($history, $machineId);
     }
 
+    /**
+     * @throws MachineException
+     */
     private function startConditions(int $machineId): void
     {
         $used = Machine::find($machineId)->worker()->first();
@@ -49,6 +59,9 @@ class CycleService
         $this->history->create($worker->id, $machineId, $cycle->id);
     }
 
+    /**
+     * @throws MachineException
+     */
     private function endConditions(int $machineId, string $workerName): History
     {
         $history = $this->history->cycleIdToUse($machineId, $workerName);
@@ -63,7 +76,7 @@ class CycleService
 
     private function endCycle(History $history, int $machineId): void
     {
-        Cycle::find($history->getAttribute('id'))->update(['complete' => true]);
+        Cycle::find($history->id)->update(['complete' => true]);
         Machine::find($machineId)->update(['worker_id' => null]);
     }
 }

@@ -12,8 +12,12 @@ class MachineHistoryRelationService implements MachineHistoryInterface
 {
     public function __construct(
         protected HistoryRepository $history,
-    ) {}
+    ) {
+    }
 
+    /**
+     * @throws MachineException
+     */
     public function history(int $machineId): Collection
     {
         $data = $this->history->machineRelationHistory($machineId);

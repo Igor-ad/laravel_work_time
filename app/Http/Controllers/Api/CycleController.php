@@ -11,8 +11,8 @@ use App\Http\Resources\CycleEndResource;
 use App\Http\Resources\CycleStartResource;
 use App\Services\CycleService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Response;
 use Illuminate\Support\Collection;
+use Symfony\Component\HttpFoundation\Response;
 
 class CycleController extends Controller
 {
@@ -21,8 +21,7 @@ class CycleController extends Controller
     public function __construct(
         protected CycleService $cycleService,
         protected CycleRequest $request,
-    )
-    {
+    ) {
         $this->validateInput();
     }
 

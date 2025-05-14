@@ -12,7 +12,8 @@ class WorkerService
 {
     public function __construct(
         protected WorkerRepository $repository,
-    ) {}
+    ) {
+    }
 
     /**
      * @throws WorkerException
@@ -21,7 +22,7 @@ class WorkerService
     {
         $worker = $this->repository->statusNow($workerName);
 
-        if (!$worker->getAttribute('machinesNow')) {
+        if (!$worker->machinesNow) {
             throw new WorkerException(
                 __('work_time.worker_not_busy', ['name' => $workerName])
             );

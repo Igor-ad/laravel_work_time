@@ -12,7 +12,8 @@ class WorkerHistoryCycleRelationService implements WorkerHistoryInterface
 {
     public function __construct(
         protected WorkerRepository $repository,
-    ) {}
+    ) {
+    }
 
     /**
      * @throws WorkerException

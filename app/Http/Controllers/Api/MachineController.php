@@ -27,16 +27,15 @@ class MachineController extends Controller
 
     /**
      *  $history - select implementation class
-     * @param MachineHistoryJoinService $history
+     * @param MachineHistoryCycleRelationService $history
      * @param MachineService $machineService
      * @param MachineRequest $request
      */
     public function __construct(
-        protected MachineHistoryJoinService $history,
-        protected MachineService            $machineService,
-        protected MachineRequest            $request,
-    )
-    {
+        protected MachineHistoryCycleRelationService $history,
+        protected MachineService                     $machineService,
+        protected MachineRequest                     $request,
+    ) {
         $this->validateInput();
     }
 
