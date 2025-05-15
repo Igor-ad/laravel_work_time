@@ -176,7 +176,7 @@ PUT /api/end?machine=102&worker=Андрей
 
 **the machine not found in the system** [`see this`](#the-machine-not-found-in-the-system)
 
-**worker not found in the system** [`see this`](#the-worker-not-found-in-the-system)
+**the worker not found in the system** [`see this`](#the-worker-not-found-in-the-system)
 
 ========
 
@@ -207,7 +207,7 @@ GET /api/worker_now?worker=Андрей
 }
 ```
 
-**worker not found in the system** [`see this`](#worker-not-found-in-the-system)
+**the worker not found in the system** [`see this`](#the-worker-not-found-in-the-system)
 
 ========
 
@@ -239,7 +239,7 @@ GET /api/machine_now?machine=102
 }
 ```
 
-**worker not found in the system** [`see this`](#worker-not-found-in-the-system)
+**the worker not found in the system** [`see this`](#the-worker-not-found-in-the-system)
 
 #### validation error
 
@@ -403,6 +403,6 @@ GET /api/worker_history?worker=Андрей&page=3&per_page=2
 }
 ```
 
-**worker not found in the system** [`see this`](#the-worker-not-found-in-the-system)
+**the worker not found in the system** [`see this`](#the-worker-not-found-in-the-system)
 
 ====================================!
