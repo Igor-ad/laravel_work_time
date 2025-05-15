@@ -10,8 +10,19 @@ class Cycle extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
+    protected $fillable = ['complete',];
+
+    protected $hidden = ['created_at', 'updated_at'];
+
+    protected $appends = ['start', 'end'];
+
+    protected $visible = [
+        'id',
+        'start',
+        'end',
         'complete',
+        'workers',
+        'machines',
     ];
 
     /**
@@ -20,6 +31,16 @@ class Cycle extends Model
     protected function getCompleteAttribute($value): string
     {
         return $value ? 'Complete' : 'Run';
+    }
+
+    protected function getStartAttribute(): ?string
+    {
+        return $this->attributes['created_at'];
+    }
+
+    protected function getEndAttribute(): ?string
+    {
+        return $this->attributes['updated_at'];
     }
 
     public function workers(): BelongsToMany

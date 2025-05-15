@@ -30,6 +30,6 @@ class Machine extends Model
     public function cycles(): BelongsToMany
     {
         return $this->belongsToMany(Cycle::class, 'histories')
-            ->as('cycle_machine');
+            ->as('machine_cycle');
     }
 }

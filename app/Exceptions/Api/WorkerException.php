@@ -6,12 +6,4 @@ namespace App\Exceptions\Api;
 
 class WorkerException extends ServiceException
 {
-    public function toArray(): array
-    {
-        return [
-            'errors' => [
-                'worker' => $this->getMessage(),
-            ]
-        ];
-    }
 }

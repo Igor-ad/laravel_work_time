@@ -7,11 +7,12 @@ namespace App\Exceptions\Api;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use Symfony\Component\HttpFoundation\Response;
 
 class ServiceException extends Exception
 {
     protected int $status = Response::HTTP_NOT_IMPLEMENTED;
+    protected $message = 'Service exception.';
 
     public function render(Request $request): JsonResponse
     {
@@ -26,6 +27,7 @@ class ServiceException extends Exception
     {
         return [
             'errors' => $this->getMessage(),
+            'code' => $this->status,
         ];
     }
 }

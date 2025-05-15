@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Exceptions\Api;
 
-use Illuminate\Http\Response;
+use Symfony\Component\HttpFoundation\Response;
 
 class NotFoundException extends ServiceException
 {

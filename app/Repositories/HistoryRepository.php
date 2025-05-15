@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace App\Repositories;
 
 use App\Models\History;
-use App\Models\Machine;
-use App\Models\Worker;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 
@@ -33,16 +31,6 @@ class HistoryRepository
         ]);
     }
 
-    public function machineCycleRelationHistory(int $machineId): Collection
-    {
-        return Machine::find($machineId)
-            ->cycles()
-            ->as('cycle_machine')
-            ->with(['workers'])
-            ->select('id', 'created_at as start', 'updated_at as end', 'complete')
-            ->get();
-    }
-
     public function machineHistory(int $machineId): Collection
     {
         return History::join('machines', 'machines.id', 'histories.machine_id')
@@ -61,7 +49,7 @@ class HistoryRepository
 
     public function machineRelationHistory(int $machineId): Collection
     {
-        return History::with(['cycles.workers'])
+        return History::with(['workers'])
             ->select('worker_id', 'cycle_id')
             ->where('machine_id', $machineId)
             ->get();
@@ -80,20 +68,12 @@ class HistoryRepository
                 'cycles.complete'
             )
             ->orderBy('cycles.id', 'desc')
-            ->paginate(request('per_page'));
-    }
-
-    public function workerCycleRelationHistory(string $workerName): LengthAwarePaginator
-    {
-        return Worker::where('name', $workerName)->first()
-            ->cycles()
-            ->with(['machines'])
             ->paginate(request('per_page', 10));
     }
 
     public function workerRelationHistory(string $workerName): LengthAwarePaginator
     {
-        return History::with(['cycles.machines'])
+        return History::with(['cycles'])
             ->where('worker_id', function ($query) use ($workerName) {
                 return $query->select('id')->from('workers')->where('name', $workerName)->first();
             })
