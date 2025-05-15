@@ -22,7 +22,7 @@
 GET /api/machines
 
 {
-    "message": "machines",
+    "message": "Machines",
     "count": 5,
     "data": [
         {
@@ -52,34 +52,43 @@ GET /api/machines
 GET /api/workers
 
 {
-    "message": "workers",
-    "count": 10,
+    "message": "Workers",
+    "count": 9,
     "data": [
         {
+            "id": 1,
             "name": "Андрей"
         },
         {
+            "id": 2,
             "name": "Сергей"
         },
         {
+            "id": 3,
             "name": "Михаил"
         },
         {
+            "id": 4,
             "name": "Стас"
         },
         {
+            "id": 5,
             "name": "Артем"
         },
         {
+            "id": 6,
             "name": "Татьяна"
         },
         {
+            "id": 7,
             "name": "Евгений"
         },
         {
+            "id": 8,
             "name": "Катя"
         },
         {
+            "id": 9,
             "name": "Борис"
         }
     ]
@@ -99,7 +108,8 @@ POST /api/start?machine=102&worker=Андрей
 
 ```
 {
-    "message": "the cycle started successfully",
+    "message": "The cycle started successfully",
+    "count": 2,
     "data": {
         "machine": 102,
         "worker": "Андрей"
@@ -111,9 +121,8 @@ POST /api/start?machine=102&worker=Андрей
 
 ```
 {
-    "errors": {
-        "machine": "the machine ID 56 is currently in use"
-    }
+    "errors": "Cycle start fail, the machine ID 56 is currently in use",
+    "code": 501
 }
 ```
 
@@ -121,13 +130,20 @@ POST /api/start?machine=102&worker=Андрей
 
 ```
 {
-    "errors": { 
-        "machine": [
-            "The selected machine is invalid."
-        ]
-    }
+    "errors": "The selected machine is invalid.",
+    "code": 501
 }
 ```
+
+#### the worker not found in the system
+
+```
+{
+    "errors": "The selected worker is invalid.",
+    "code": 501
+}
+```
+
 
 ========
 
@@ -141,7 +157,7 @@ PUT /api/end?machine=102&worker=Андрей
 
 ```
 {
-    "message": "the cycle completed successfully",
+    "message": "The cycle completed successfully",
     "data": {
         "machine": 102,
         "worker": "Андрей"	
@@ -153,15 +169,14 @@ PUT /api/end?machine=102&worker=Андрей
 
 ```
 {
-    "errors": {
-        "machine": "the machine ID 78 is not currently in use"
-    }
+    "errors": "Cycle end fail, machine ID 102 is not using now",
+    "code": 501
 }
 ```
 
 **the machine not found in the system** [`see this`](#the-machine-not-found-in-the-system)
 
-**worker not found in the system** [`see this`](#worker-not-found-in-the-system)
+**worker not found in the system** [`see this`](#the-worker-not-found-in-the-system)
 
 ========
 
@@ -217,17 +232,21 @@ GET /api/machine_now?machine=102
 }
 ```
 
+```
+{
+    "errors": "Machine ID 102 is not currently in use",
+    "code": 501
+}
+```
+
 **worker not found in the system** [`see this`](#worker-not-found-in-the-system)
 
 #### validation error
 
 ```
 {
-	"errors": {
-		"machine": [
-			"The machine field is required."
-		]
-	}
+    "errors": "The machine field is required.",
+    "code": 501
 }
 
 {
@@ -248,38 +267,56 @@ GET /api/machine_now?machine=102
 GET /api/machine_history?machine=102
 
 {
-    "message": "history machine usage with ID 102",
-    "count": 5,
+    "message": "Usage history of machine ID 56",
+    "count": 3,
     "data": [
         {
-            "worker": "Андрей",
-            "start": "2023-10-09 18:48:42",
-            "end": "2023-10-09 18:49:18",
-            "complete": 1
+            "id": 136,
+            "complete": "Complete",
+            "start": "2025-05-10 11:32:27",
+            "end": "2025-05-10 11:36:14",
+            "workers": [
+                {
+                    "id": 9,
+                    "name": "Борис",
+                    "cycle_worker": {
+                        "cycle_id": 136,
+                        "worker_id": 9
+                    }
+                }
+            ]
         },
         {
-            "worker": "Андрей",
-            "start": "2023-10-09 16:40:26",
-            "end": "2023-10-09 18:47:55",
-            "complete": 1
+            "id": 137,
+            "complete": "Complete",
+            "start": "2025-05-10 14:57:48",
+            "end": "2025-05-10 14:59:20",
+            "workers": [
+                {
+                    "id": 9,
+                    "name": "Борис",
+                    "cycle_worker": {
+                        "cycle_id": 137,
+                        "worker_id": 9
+                    }
+                }
+            ]
         },
         {
-            "worker": "Андрей",
-            "start": "2023-10-09 16:40:18",
-            "end": "2023-10-09 16:40:21",
-            "complete": 1
-        },
-        {
-            "worker": "Андрей",
-            "start": "2023-10-09 16:26:07",
-            "end": "2023-10-09 16:26:10",
-            "complete": 1
-        },
-        {
-            "worker": "Андрей",
-            "start": "2023-10-09 16:21:58",
-            "end": "2023-10-09 16:22:02",
-            "complete": 1
+            "id": 145,
+            "complete": "Complete",
+            "start": "2025-05-15 08:43:24",
+            "end": "2025-05-15 08:45:00",
+            "workers": [
+                {
+                    "id": 10,
+                    "name": "Alex",
+                    "cycle_worker": {
+                        "cycle_id": 145,
+                        "worker_id": 10
+                    }
+                }
+            ]
         }
     ]
 }
@@ -289,9 +326,8 @@ GET /api/machine_history?machine=102
 
 ```
 {
-    "errors": {
-        "machine": "machine ID 56 has not been used yet"
-    }
+    "errors": "Machine ID 56 has not been used yet",
+    "code": 501
 }
 ```
 
@@ -302,45 +338,59 @@ GET /api/machine_history?machine=102
 ##### request of the worker job history with pagination
 
 ```
-GET /api/worker_history?worker=Андрей&page=3&per_page=5
+GET /api/worker_history?worker=Андрей&page=3&per_page=2
 
 {
-    "message": "history job worker Андрей",
+    "message": "History job of worker Андрей",
+    "meta": {
+        "from": 5,
+        "to": 7,
+        "current_page": 3,
+        "last_page": 36,
+        "per_page": 2,
+        "total": 72
+    },
+    "link": {
+        "path": "http://localhost/api/worker_history",
+        "first_page_url": "http://localhost/api/worker_history?page=1",
+        "prev_page_url": "http://localhost/api/worker_history?page=2",
+        "next_page_url": "http://localhost/api/worker_history?page=4",
+        "last_page_url": "http://localhost/api/worker_history?page=36"
+    },
     "data": [
         {
-            "machine": 102,
-            "start": "2023-10-09 16:26:07",
-            "end": "2023-10-09 16:26:10",
-            "complete": 1
+            "id": 47,
+            "complete": "Complete",
+            "start": "2025-05-10 14:26:47",
+            "end": "2025-05-10 16:13:20",
+            "machines": [
+                {
+                    "id": 102,
+                    "worker_id": 1,
+                    "cycle_machine": {
+                        "cycle_id": 47,
+                        "machine_id": 102
+                    }
+                }
+            ]
         },
         {
-            "machine": 102,
-            "start": "2023-10-09 16:21:58",
-            "end": "2023-10-09 16:22:02",
-            "complete": 1
-        },
-        {
-            "machine": 102,
-            "start": "2023-10-09 13:28:49",
-            "end": "2023-10-09 16:21:53",
-            "complete": 1
+            "id": 50,
+            "complete": "Complete",
+            "start": "2025-05-12 06:37:00",
+            "end": "2025-05-12 06:44:23",
+            "machines": [
+                {
+                    "id": 102,
+                    "worker_id": 1,
+                    "cycle_machine": {
+                        "cycle_id": 50,
+                        "machine_id": 102
+                    }
+                }
+            ]
         }
-    ],
-    "meta": {
-        "from": 4,
-        "to": 7,
-        "current_page": 2,
-        "last_page": 23,
-        "per_page": 3,
-        "total": 68,
-        "link": {
-            "path": "http:\/\/192.168.4.145\/api\/worker_history",
-            "first_page_url": "http:\/\/192.168.4.145\/api\/worker_history?page=1",
-            "prev_page_url": "http:\/\/192.168.4.145\/api\/worker_history?page=1",
-            "next_page_url": "http:\/\/192.168.4.145\/api\/worker_history?page=3",
-            "last_page_url": "http:\/\/192.168.4.145\/api\/worker_history?page=23"
-        }
-    }
+    ]
 }
 ```
 
@@ -348,12 +398,11 @@ GET /api/worker_history?worker=Андрей&page=3&per_page=5
 
 ```
 {
-    "errors": {
-        "worker": "worker Борис has no history yet"
-    }
+    "errors": "Worker Сергей has no history yet",
+    "code": 501
 }
 ```
 
-**worker not found in the system** [`see this`](#worker-not-found-in-the-system)
+**worker not found in the system** [`see this`](#the-worker-not-found-in-the-system)
 
 ====================================!
